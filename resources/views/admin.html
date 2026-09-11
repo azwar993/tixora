@@ -1,0 +1,3013 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TIXORA Admin Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="sidebar-logo">
+
+        <a href="#">
+            TIX<span>ORA</span>
+        </a>
+
+        <small>
+            ADMIN PANEL
+        </small>
+
+    </div>
+
+
+    <!-- ADMIN PROFILE -->
+
+    <div class="admin-profile">
+
+        <div class="admin-avatar">
+            <i class="fa-solid fa-user-shield"></i>
+        </div>
+
+        <div>
+
+            <strong>
+                Administrator
+            </strong>
+
+            <small>
+                admin@tixora.id
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- MENU -->
+
+    <nav class="sidebar-menu">
+
+        <p class="menu-label">
+            MAIN MENU
+        </p>
+
+
+        <button
+            class="menu-item active"
+            data-section="dashboard"
+            onclick="showSection('dashboard')"
+        >
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>
+                Dashboard
+            </span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-section="events"
+            onclick="showSection('events')"
+        >
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+            <span>
+                Event Management
+            </span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-section="categories"
+            onclick="showSection('categories')"
+        >
+
+            <i class="fa-solid fa-layer-group"></i>
+
+            <span>
+                Categories
+            </span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-section="tickets"
+            onclick="showSection('tickets')"
+        >
+
+            <i class="fa-solid fa-ticket"></i>
+
+            <span>
+                Ticket Management
+            </span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-section="seats"
+            onclick="showSection('seats')"
+        >
+
+            <i class="fa-solid fa-chair"></i>
+
+            <span>
+                Seat Management
+            </span>
+
+        </button>
+
+
+        <p class="menu-label">
+            TRANSACTION
+        </p>
+
+
+        <button
+            class="menu-item"
+            data-section="orders"
+            onclick="showSection('orders')"
+        >
+
+            <i class="fa-solid fa-receipt"></i>
+
+            <span>
+                Orders
+            </span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-section="payments"
+            onclick="showSection('payments')"
+        >
+
+            <i class="fa-solid fa-wallet"></i>
+
+            <span>
+                Payments
+            </span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-section="ticket-validation"
+            onclick="showSection('ticket-validation')"
+        >
+
+            <i class="fa-solid fa-qrcode"></i>
+
+            <span>
+                QR Validation
+            </span>
+
+        </button>
+
+
+        <p class="menu-label">
+            MANAGEMENT
+        </p>
+
+
+        <button
+            class="menu-item"
+            data-section="users"
+            onclick="showSection('users')"
+        >
+
+            <i class="fa-solid fa-users"></i>
+
+            <span>
+                Users
+            </span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-section="articles"
+            onclick="showSection('articles')"
+        >
+
+            <i class="fa-solid fa-newspaper"></i>
+
+            <span>
+                Articles
+            </span>
+
+        </button>
+
+
+        <button
+            class="menu-item"
+            data-section="reports"
+            onclick="showSection('reports')"
+        >
+
+            <i class="fa-solid fa-file-lines"></i>
+
+            <span>
+                Reports
+            </span>
+
+        </button>
+
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <button
+            class="logout-button"
+            onclick="adminLogout()"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            Logout
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <button
+                class="sidebar-toggle"
+                onclick="toggleSidebar()"
+            >
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
+
+            <div>
+
+                <span class="topbar-label">
+                    TIXORA ADMIN
+                </span>
+
+                <h1 id="pageTitle">
+                    Dashboard
+                </h1>
+
+            </div>
+
+        </div>
+
+
+        <div class="topbar-right">
+
+            <button class="notification-button">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span>
+                    3
+                </span>
+
+            </button>
+
+
+            <div class="topbar-admin">
+
+                <div class="topbar-avatar">
+
+                    <i class="fa-solid fa-user-shield"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        Admin
+                    </strong>
+
+                    <small>
+                        Administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================= -->
+
+    <section
+        class="admin-section active"
+        id="dashboard"
+    >
+
+        <div class="welcome-banner">
+
+            <div>
+
+                <span>
+                    GOOD DAY, ADMIN
+                </span>
+
+                <h2>
+                    Welcome back to TIXORA.
+                </h2>
+
+                <p>
+                    Pantau event, transaksi dan
+                    performa ticketing hari ini.
+                </p>
+
+            </div>
+
+
+            <div class="banner-icon">
+
+                <i class="fa-solid fa-chart-simple"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        TOTAL EVENT
+                    </span>
+
+                    <strong>
+                        12
+                    </strong>
+
+                    <small>
+                        +2 bulan ini
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-ticket"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        TICKETS SOLD
+                    </span>
+
+                    <strong>
+                        1,245
+                    </strong>
+
+                    <small>
+                        +18.4%
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        REVENUE
+                    </span>
+
+                    <strong>
+                        Rp125,5 Jt
+                    </strong>
+
+                    <small>
+                        +12.8%
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        TOTAL USERS
+                    </span>
+
+                    <strong>
+                        542
+                    </strong>
+
+                    <small>
+                        +31 user
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHART AREA -->
+
+        <div class="dashboard-grid">
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            OVERVIEW
+                        </span>
+
+                        <h3>
+                            Ticket Sales
+                        </h3>
+
+                    </div>
+
+
+                    <select>
+
+                        <option>
+                            2026
+                        </option>
+
+                        <option>
+                            2025
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="fake-chart">
+
+                    <div class="chart-bars">
+
+                        <span style="height:35%;"></span>
+                        <span style="height:52%;"></span>
+                        <span style="height:42%;"></span>
+                        <span style="height:67%;"></span>
+                        <span style="height:55%;"></span>
+                        <span style="height:76%;"></span>
+                        <span style="height:62%;"></span>
+                        <span style="height:83%;"></span>
+                        <span style="height:71%;"></span>
+                        <span style="height:94%;"></span>
+                        <span style="height:78%;"></span>
+                        <span style="height:88%;"></span>
+
+                    </div>
+
+
+                    <div class="chart-labels">
+
+                        <span>Jan</span>
+                        <span>Feb</span>
+                        <span>Mar</span>
+                        <span>Apr</span>
+                        <span>May</span>
+                        <span>Jun</span>
+                        <span>Jul</span>
+                        <span>Aug</span>
+                        <span>Sep</span>
+                        <span>Oct</span>
+                        <span>Nov</span>
+                        <span>Dec</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECENT ORDER -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            RECENT
+                        </span>
+
+                        <h3>
+                            Orders
+                        </h3>
+
+                    </div>
+
+
+                    <button
+                        onclick="showSection('orders')"
+                    >
+                        View All
+                    </button>
+
+                </div>
+
+
+                <div class="recent-order-list">
+
+
+                    <div class="recent-order">
+
+                        <div class="order-avatar">
+                            H
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Haikal
+                            </strong>
+
+                            <small>
+                                Jakarta Music Fest
+                            </small>
+
+                        </div>
+
+                        <span class="paid-badge">
+                            PAID
+                        </span>
+
+                    </div>
+
+
+                    <div class="recent-order">
+
+                        <div class="order-avatar">
+                            B
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Budi
+                            </strong>
+
+                            <small>
+                                MPL ID Season 18
+                            </small>
+
+                        </div>
+
+                        <span class="paid-badge">
+                            PAID
+                        </span>
+
+                    </div>
+
+
+                    <div class="recent-order">
+
+                        <div class="order-avatar">
+                            A
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Andi
+                            </strong>
+
+                            <small>
+                                Kahitna 40 Tahun
+                            </small>
+
+                        </div>
+
+                        <span class="pending-badge">
+                            PENDING
+                        </span>
+
+                    </div>
+
+
+                    <div class="recent-order">
+
+                        <div class="order-avatar">
+                            D
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Dimas
+                            </strong>
+
+                            <small>
+                                Soundwave Jakarta
+                            </small>
+
+                        </div>
+
+                        <span class="paid-badge">
+                            PAID
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOP EVENTS -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span>
+                        PERFORMANCE
+                    </span>
+
+                    <h3>
+                        Top Events
+                    </h3>
+
+                </div>
+
+
+                <button
+                    onclick="showSection('events')"
+                >
+                    Manage Events
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                EVENT
+                            </th>
+
+                            <th>
+                                CATEGORY
+                            </th>
+
+                            <th>
+                                DATE
+                            </th>
+
+                            <th>
+                                SOLD
+                            </th>
+
+                            <th>
+                                REVENUE
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Jakarta Music Fest
+                                </strong>
+                            </td>
+
+                            <td>
+                                Music
+                            </td>
+
+                            <td>
+                                12 Sep 2026
+                            </td>
+
+                            <td>
+                                420
+                            </td>
+
+                            <td>
+                                Rp850 Jt
+                            </td>
+
+                            <td>
+                                <span class="status-pill green">
+                                    ON GOING
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    MPL ID Season 18
+                                </strong>
+                            </td>
+
+                            <td>
+                                Esports
+                            </td>
+
+                            <td>
+                                2026
+                            </td>
+
+                            <td>
+                                315
+                            </td>
+
+                            <td>
+                                Rp37 Jt
+                            </td>
+
+                            <td>
+                                <span class="status-pill purple">
+                                    ON GOING
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Kahitna 40 Tahun
+                                </strong>
+                            </td>
+
+                            <td>
+                                Music
+                            </td>
+
+                            <td>
+                                5 Sep 2026
+                            </td>
+
+                            <td>
+                                275
+                            </td>
+
+                            <td>
+                                Rp315 Jt
+                            </td>
+
+                            <td>
+                                <span class="status-pill orange">
+                                    COMING
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         EVENT MANAGEMENT
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="events"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    CONTENT
+                </span>
+
+                <h2>
+                    Event Management
+                </h2>
+
+                <p>
+                    Kelola event yang ditampilkan
+                    pada website TIXORA.
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="openEventForm()"
+            >
+
+                <i class="fa-solid fa-plus"></i>
+
+                Tambah Event
+
+            </button>
+
+        </div>
+
+
+        <div class="filter-bar">
+
+            <div class="search-admin">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    placeholder="Cari event..."
+                    onkeyup="filterAdminEvents(this.value)"
+                >
+
+            </div>
+
+
+            <select>
+
+                <option>
+                    Semua Kategori
+                </option>
+
+                <option>
+                    Music
+                </option>
+
+                <option>
+                    Sports
+                </option>
+
+                <option>
+                    Esports
+                </option>
+
+                <option>
+                    Festival
+                </option>
+
+            </select>
+
+
+            <select>
+
+                <option>
+                    Semua Status
+                </option>
+
+                <option>
+                    On Going
+                </option>
+
+                <option>
+                    Coming Soon
+                </option>
+
+                <option>
+                    Past Event
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-wrapper">
+
+                <table id="eventTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                EVENT
+                            </th>
+
+                            <th>
+                                CATEGORY
+                            </th>
+
+                            <th>
+                                LOCATION
+                            </th>
+
+                            <th>
+                                DATE
+                            </th>
+
+                            <th>
+                                PRICE
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                ACTION
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    MPL ID Season 18
+                                </strong>
+                            </td>
+
+                            <td>
+                                Esports
+                            </td>
+
+                            <td>
+                                Jakarta
+                            </td>
+
+                            <td>
+                                2026
+                            </td>
+
+                            <td>
+                                Rp85K - Rp150K
+                            </td>
+
+                            <td>
+                                <span class="status-pill green">
+                                    ON GOING
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <div class="action-buttons">
+
+                                    <button
+                                        onclick="editItem('MPL ID Season 18')"
+                                    >
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+
+                                    <button
+                                        onclick="deleteItem('MPL ID Season 18')"
+                                    >
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Kahitna 40 Tahun
+                                </strong>
+                            </td>
+
+                            <td>
+                                Music
+                            </td>
+
+                            <td>
+                                Tangerang
+                            </td>
+
+                            <td>
+                                5 Sep 2026
+                            </td>
+
+                            <td>
+                                Rp975K - Rp5M
+                            </td>
+
+                            <td>
+                                <span class="status-pill orange">
+                                    COMING
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <div class="action-buttons">
+
+                                    <button
+                                        onclick="editItem('Kahitna 40 Tahun')"
+                                    >
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+
+                                    <button
+                                        onclick="deleteItem('Kahitna 40 Tahun')"
+                                    >
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Jakarta Music Fest
+                                </strong>
+                            </td>
+
+                            <td>
+                                Music
+                            </td>
+
+                            <td>
+                                Jakarta
+                            </td>
+
+                            <td>
+                                12 Sep 2026
+                            </td>
+
+                            <td>
+                                Rp850K - Rp4M
+                            </td>
+
+                            <td>
+                                <span class="status-pill green">
+                                    ON GOING
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <div class="action-buttons">
+
+                                    <button
+                                        onclick="editItem('Jakarta Music Fest')"
+                                    >
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+
+                                    <button
+                                        onclick="deleteItem('Jakarta Music Fest')"
+                                    >
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         CATEGORIES
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="categories"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    CONTENT
+                </span>
+
+                <h2>
+                    Categories
+                </h2>
+
+                <p>
+                    Kelola kategori event.
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="addCategory()"
+            >
+
+                <i class="fa-solid fa-plus"></i>
+
+                Tambah Category
+
+            </button>
+
+        </div>
+
+
+        <div class="category-admin-grid">
+
+
+            <div class="admin-category-card">
+
+                <div class="category-admin-icon purple">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+
+                <h3>
+                    Music
+                </h3>
+
+                <span>
+                    7 Events
+                </span>
+
+                <div>
+
+                    <button>
+                        Edit
+                    </button>
+
+                    <button>
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-category-card">
+
+                <div class="category-admin-icon green">
+                    <i class="fa-solid fa-futbol"></i>
+                </div>
+
+                <h3>
+                    Sports
+                </h3>
+
+                <span>
+                    2 Events
+                </span>
+
+                <div>
+
+                    <button>
+                        Edit
+                    </button>
+
+                    <button>
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-category-card">
+
+                <div class="category-admin-icon blue">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+
+                <h3>
+                    Esports
+                </h3>
+
+                <span>
+                    1 Event
+                </span>
+
+                <div>
+
+                    <button>
+                        Edit
+                    </button>
+
+                    <button>
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="admin-category-card">
+
+                <div class="category-admin-icon orange">
+                    <i class="fa-solid fa-champagne-glasses"></i>
+                </div>
+
+                <h3>
+                    Festival
+                </h3>
+
+                <span>
+                    2 Events
+                </span>
+
+                <div>
+
+                    <button>
+                        Edit
+                    </button>
+
+                    <button>
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         TICKETS
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="tickets"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    INVENTORY
+                </span>
+
+                <h2>
+                    Ticket Management
+                </h2>
+
+                <p>
+                    Kelola kategori dan harga tiket event.
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="showToast('Form tambah ticket akan tersedia pada tahap database.')"
+            >
+
+                <i class="fa-solid fa-plus"></i>
+
+                Tambah Ticket
+
+            </button>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                EVENT
+                            </th>
+
+                            <th>
+                                TICKET
+                            </th>
+
+                            <th>
+                                PRICE
+                            </th>
+
+                            <th>
+                                QUOTA
+                            </th>
+
+                            <th>
+                                SOLD
+                            </th>
+
+                            <th>
+                                AVAILABLE
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                MPL ID Season 18
+                            </td>
+
+                            <td>
+                                REGULAR
+                            </td>
+
+                            <td>
+                                Rp85.000
+                            </td>
+
+                            <td>
+                                500
+                            </td>
+
+                            <td>
+                                315
+                            </td>
+
+                            <td>
+                                185
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                MPL ID Season 18
+                            </td>
+
+                            <td>
+                                VIP
+                            </td>
+
+                            <td>
+                                Rp150.000
+                            </td>
+
+                            <td>
+                                200
+                            </td>
+
+                            <td>
+                                150
+                            </td>
+
+                            <td>
+                                50
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Kahitna 40 Tahun
+                            </td>
+
+                            <td>
+                                FESTIVAL B
+                            </td>
+
+                            <td>
+                                Rp975.000
+                            </td>
+
+                            <td>
+                                1000
+                            </td>
+
+                            <td>
+                                275
+                            </td>
+
+                            <td>
+                                725
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Kahitna 40 Tahun
+                            </td>
+
+                            <td>
+                                SUPER DIAMOND
+                            </td>
+
+                            <td>
+                                Rp5.000.000
+                            </td>
+
+                            <td>
+                                100
+                            </td>
+
+                            <td>
+                                50
+                            </td>
+
+                            <td>
+                                50
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SEATS
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="seats"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    VENUE
+                </span>
+
+                <h2>
+                    Seat Management
+                </h2>
+
+                <p>
+                    Kelola posisi dan ketersediaan kursi.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="seat-management-grid">
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            EVENT
+                        </span>
+
+                        <h3>
+                            Jakarta Music Fest
+                        </h3>
+
+                    </div>
+
+
+                    <select>
+
+                        <option>
+                            VIP 1
+                        </option>
+
+                        <option>
+                            VIP 2
+                        </option>
+
+                        <option>
+                            VVIP
+                        </option>
+
+                        <option>
+                            REGULAR
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="admin-stage">
+                    STAGE
+                </div>
+
+
+                <div class="admin-seat-map">
+
+
+                    <div class="admin-seat-row">
+
+                        <button class="admin-seat available">
+                            A01
+                        </button>
+
+                        <button class="admin-seat available">
+                            A02
+                        </button>
+
+                        <button class="admin-seat sold">
+                            A03
+                        </button>
+
+                        <button class="admin-seat available">
+                            A04
+                        </button>
+
+                        <button class="admin-seat available">
+                            A05
+                        </button>
+
+                    </div>
+
+
+                    <div class="admin-seat-row">
+
+                        <button class="admin-seat available">
+                            B01
+                        </button>
+
+                        <button class="admin-seat sold">
+                            B02
+                        </button>
+
+                        <button class="admin-seat available">
+                            B03
+                        </button>
+
+                        <button class="admin-seat available">
+                            B04
+                        </button>
+
+                        <button class="admin-seat sold">
+                            B05
+                        </button>
+
+                    </div>
+
+
+                    <div class="admin-seat-row">
+
+                        <button class="admin-seat available">
+                            C01
+                        </button>
+
+                        <button class="admin-seat available">
+                            C02
+                        </button>
+
+                        <button class="admin-seat available">
+                            C03
+                        </button>
+
+                        <button class="admin-seat sold">
+                            C04
+                        </button>
+
+                        <button class="admin-seat available">
+                            C05
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="seat-stat">
+
+                    <span>
+                        <i class="dot green"></i>
+                        Available
+                    </span>
+
+                    <span>
+                        <i class="dot red"></i>
+                        Sold
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            SUMMARY
+                        </span>
+
+                        <h3>
+                            Seat Status
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div class="seat-summary">
+
+                    <div>
+
+                        <strong>
+                            15
+                        </strong>
+
+                        <span>
+                            Total Seats
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            11
+                        </strong>
+
+                        <span>
+                            Available
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            4
+                        </strong>
+
+                        <span>
+                            Sold
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ORDERS
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="orders"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    TRANSACTION
+                </span>
+
+                <h2>
+                    Orders
+                </h2>
+
+                <p>
+                    Lihat seluruh pesanan pengguna.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="filter-bar">
+
+            <div class="search-admin">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    placeholder="Cari order / customer..."
+                >
+
+            </div>
+
+
+            <select>
+
+                <option>
+                    Semua Status
+                </option>
+
+                <option>
+                    PAID
+                </option>
+
+                <option>
+                    PENDING
+                </option>
+
+                <option>
+                    FAILED
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                ORDER ID
+                            </th>
+
+                            <th>
+                                CUSTOMER
+                            </th>
+
+                            <th>
+                                EVENT
+                            </th>
+
+                            <th>
+                                TICKET
+                            </th>
+
+                            <th>
+                                TOTAL
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                DATE
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    TIX-100234
+                                </strong>
+                            </td>
+
+                            <td>
+                                Haikal
+                            </td>
+
+                            <td>
+                                Jakarta Music Fest
+                            </td>
+
+                            <td>
+                                VIP 1 - A01
+                            </td>
+
+                            <td>
+                                Rp2.550.000
+                            </td>
+
+                            <td>
+                                <span class="status-pill green">
+                                    PAID
+                                </span>
+                            </td>
+
+                            <td>
+                                03 Sep 2026
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    TIX-100235
+                                </strong>
+                            </td>
+
+                            <td>
+                                Budi
+                            </td>
+
+                            <td>
+                                MPL ID Season 18
+                            </td>
+
+                            <td>
+                                VIP - A02
+                            </td>
+
+                            <td>
+                                Rp153.000
+                            </td>
+
+                            <td>
+                                <span class="status-pill orange">
+                                    PENDING
+                                </span>
+                            </td>
+
+                            <td>
+                                03 Sep 2026
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PAYMENTS
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="payments"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    TRANSACTION
+                </span>
+
+                <h2>
+                    Payments
+                </h2>
+
+                <p>
+                    Monitoring pembayaran pengguna.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        SUCCESS
+                    </span>
+
+                    <strong>
+                        1,112
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        PENDING
+                    </span>
+
+                    <strong>
+                        85
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon red">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        FAILED
+                    </span>
+
+                    <strong>
+                        48
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                TRANSACTION
+                            </th>
+
+                            <th>
+                                ORDER
+                            </th>
+
+                            <th>
+                                METHOD
+                            </th>
+
+                            <th>
+                                AMOUNT
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                PAY-88234
+                            </td>
+
+                            <td>
+                                TIX-100234
+                            </td>
+
+                            <td>
+                                QRIS
+                            </td>
+
+                            <td>
+                                Rp2.550.000
+                            </td>
+
+                            <td>
+                                <span class="status-pill green">
+                                    SUCCESS
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                PAY-88235
+                            </td>
+
+                            <td>
+                                TIX-100235
+                            </td>
+
+                            <td>
+                                Virtual Account
+                            </td>
+
+                            <td>
+                                Rp153.000
+                            </td>
+
+                            <td>
+                                <span class="status-pill orange">
+                                    PENDING
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         QR VALIDATION
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="ticket-validation"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    SECURITY
+                </span>
+
+                <h2>
+                    QR Ticket Validation
+                </h2>
+
+                <p>
+                    Validasi tiket digital sebelum
+                    pengguna memasuki venue.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="qr-validation-layout">
+
+
+            <div class="panel qr-scanner-panel">
+
+                <div class="scanner-box">
+
+                    <div class="scanner-corners">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+
+                    <i class="fa-solid fa-qrcode"></i>
+
+                    <p>
+                        Arahkan QR Ticket ke area scanner
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="scan-button"
+                    onclick="simulateScan()"
+                >
+
+                    <i class="fa-solid fa-camera"></i>
+
+                    Simulasi Scan QR
+
+                </button>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span>
+                            VALIDATION RESULT
+                        </span>
+
+                        <h3>
+                            Ticket Information
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="validation-result"
+                    id="validationResult"
+                >
+
+                    <div class="validation-empty">
+
+                        <i class="fa-solid fa-qrcode"></i>
+
+                        <h3>
+                            Belum ada tiket
+                        </h3>
+
+                        <p>
+                            Scan QR Code untuk melihat
+                            informasi tiket.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         USERS
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="users"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    USERS
+                </span>
+
+                <h2>
+                    User Management
+                </h2>
+
+                <p>
+                    Kelola pengguna TIXORA.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                USER
+                            </th>
+
+                            <th>
+                                EMAIL
+                            </th>
+
+                            <th>
+                                ORDERS
+                            </th>
+
+                            <th>
+                                TOTAL SPENDING
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Haikal
+                                </strong>
+                            </td>
+
+                            <td>
+                                haikal@email.com
+                            </td>
+
+                            <td>
+                                7
+                            </td>
+
+                            <td>
+                                Rp8.250.000
+                            </td>
+
+                            <td>
+                                <span class="status-pill green">
+                                    ACTIVE
+                                </span>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Budi
+                                </strong>
+                            </td>
+
+                            <td>
+                                budi@email.com
+                            </td>
+
+                            <td>
+                                3
+                            </td>
+
+                            <td>
+                                Rp1.530.000
+                            </td>
+
+                            <td>
+                                <span class="status-pill green">
+                                    ACTIVE
+                                </span>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ARTICLES
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="articles"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    CONTENT
+                </span>
+
+                <h2>
+                    Articles
+                </h2>
+
+                <p>
+                    Kelola artikel dan informasi event.
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="addArticle()"
+            >
+
+                <i class="fa-solid fa-plus"></i>
+
+                Tambah Artikel
+
+            </button>
+
+        </div>
+
+
+        <div class="article-admin-grid">
+
+
+            <div class="article-admin-card">
+
+                <span>
+                    TIPS & TRICK
+                </span>
+
+                <h3>
+                    Tips Membeli Tiket
+                    Konser Online dengan Aman
+                </h3>
+
+                <p>
+                    Published • 03 Sep 2026
+                </p>
+
+                <div>
+
+                    <button>
+                        Edit
+                    </button>
+
+                    <button>
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="article-admin-card">
+
+                <span>
+                    GUIDE
+                </span>
+
+                <h3>
+                    Mengenal Perbedaan
+                    VIP, VVIP dan Regular
+                </h3>
+
+                <p>
+                    Published • 01 Sep 2026
+                </p>
+
+                <div>
+
+                    <button>
+                        Edit
+                    </button>
+
+                    <button>
+                        Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         REPORTS
+    ================================================= -->
+
+    <section
+        class="admin-section"
+        id="reports"
+    >
+
+        <div class="section-top">
+
+            <div>
+
+                <span class="topbar-label">
+                    ANALYTICS
+                </span>
+
+                <h2>
+                    Reports
+                </h2>
+
+                <p>
+                    Ringkasan performa bisnis TIXORA.
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="showToast('Export laporan PDF/Excel akan tersedia pada tahap backend.')"
+            >
+
+                <i class="fa-solid fa-download"></i>
+
+                Export Report
+
+            </button>
+
+        </div>
+
+
+        <div class="report-grid">
+
+
+            <div class="report-card">
+
+                <span>
+                    MONTHLY REVENUE
+                </span>
+
+                <strong>
+                    Rp125.500.000
+                </strong>
+
+                <small>
+                    September 2026
+                </small>
+
+            </div>
+
+
+            <div class="report-card">
+
+                <span>
+                    TICKETS SOLD
+                </span>
+
+                <strong>
+                    1,245
+                </strong>
+
+                <small>
+                    All events
+                </small>
+
+            </div>
+
+
+            <div class="report-card">
+
+                <span>
+                    ACTIVE USERS
+                </span>
+
+                <strong>
+                    542
+                </strong>
+
+                <small>
+                    Registered users
+                </small>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <span>
+                        SALES
+                    </span>
+
+                    <h3>
+                        Event Performance
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-bars">
+
+                <div>
+
+                    <span>
+                        Jakarta Music Fest
+                    </span>
+
+                    <div>
+                        <i style="width:90%;"></i>
+                    </div>
+
+                    <strong>
+                        90%
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        MPL ID Season 18
+                    </span>
+
+                    <div>
+                        <i style="width:72%;"></i>
+                    </div>
+
+                    <strong>
+                        72%
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Kahitna 40 Tahun
+                    </span>
+
+                    <div>
+                        <i style="width:57%;"></i>
+                    </div>
+
+                    <strong>
+                        57%
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     EVENT FORM MODAL
+===================================================== -->
+
+<div
+    class="admin-modal"
+    id="eventFormModal"
+>
+
+    <div
+        class="admin-modal-overlay"
+        onclick="closeAdminModal('eventFormModal')"
+    ></div>
+
+
+    <div class="admin-modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeAdminModal('eventFormModal')"
+        >
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <div class="modal-header">
+
+            <span>
+                EVENT MANAGEMENT
+            </span>
+
+            <h2>
+                Tambah Event
+            </h2>
+
+            <p>
+                Masukkan informasi event baru.
+            </p>
+
+        </div>
+
+
+        <form
+            class="admin-form"
+            onsubmit="saveEvent(event)"
+        >
+
+            <label>
+                Nama Event
+            </label>
+
+            <input
+                type="text"
+                placeholder="Contoh: TIXORA Music Festival"
+                required
+            >
+
+
+            <label>
+                Kategori
+            </label>
+
+            <select required>
+
+                <option value="">
+                    Pilih kategori
+                </option>
+
+                <option>
+                    Music
+                </option>
+
+                <option>
+                    Sports
+                </option>
+
+                <option>
+                    Esports
+                </option>
+
+                <option>
+                    Festival
+                </option>
+
+                <option>
+                    Theater
+                </option>
+
+            </select>
+
+
+            <div class="form-row">
+
+                <div>
+
+                    <label>
+                        Lokasi
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="Jakarta"
+                        required
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Venue
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="GBK"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div>
+
+                    <label>
+                        Tanggal
+                    </label>
+
+                    <input
+                        type="date"
+                        required
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select required>
+
+                        <option>
+                            Coming Soon
+                        </option>
+
+                        <option>
+                            On Going
+                        </option>
+
+                        <option>
+                            Past Event
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <label>
+                Deskripsi
+            </label>
+
+            <textarea
+                rows="4"
+                placeholder="Deskripsi event..."
+            ></textarea>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="closeAdminModal('eventFormModal')"
+                >
+                    Batal
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Simpan Event
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="admin-toast"
+    id="adminToast"
+>
+
+    <i class="fa-solid fa-circle-check"></i>
+
+    <span id="adminToastMessage">
+        Berhasil
+    </span>
+
+</div>
+
+
+<script src="admin.js"></script>
+
+</body>
+</html>
