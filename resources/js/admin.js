@@ -57,36 +57,27 @@ function showSection(sectionId) {
             ".admin-section"
         );
 
-
     sections.forEach(section => {
-
         section.classList.remove(
             "active"
         );
-
     });
-
 
     const target =
         document.getElementById(
             sectionId
         );
 
-
     if (target) {
-
         target.classList.add(
             "active"
         );
-
     }
-
 
     const menuItems =
         document.querySelectorAll(
             ".menu-item"
         );
-
 
     menuItems.forEach(item => {
 
@@ -94,46 +85,38 @@ function showSection(sectionId) {
             "active"
         );
 
-
         if (
             item.dataset.section ===
             sectionId
         ) {
-
             item.classList.add(
                 "active"
             );
-
         }
-
     });
-
 
     const pageTitle =
         document.getElementById(
             "pageTitle"
         );
 
-
     if (
         pageTitle &&
         sectionTitles[sectionId]
     ) {
-
         pageTitle.textContent =
             sectionTitles[sectionId];
-
     }
-
 
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
 
-
     closeSidebar();
 }
+
+window.showSection = showSection;
 
 
 /* =========================================================
@@ -230,15 +213,75 @@ function saveEvent(event) {
 
     event.preventDefault();
 
+    const form = event.target;
 
-    closeAdminModal(
-        "eventFormModal"
-    );
+    const namaEvent = form.querySelector('input[type="text"]').value;
+    const kategori = form.querySelector('select').value;
 
+    const inputs = form.querySelectorAll('input[type="text"]');
 
-    showToast(
-        "Event berhasil ditambahkan. (Prototype)"
-    );
+    const lokasi = inputs[1].value;
+
+    const tanggal = form.querySelector('input[type="date"]').value;
+
+    const statusSelects = form.querySelectorAll('select');
+    const status = statusSelects[1].value;
+
+    const tableBody = document.querySelector('#eventTable tbody');
+
+    if (!tableBody) {
+        return;
+    }
+
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+        <td>
+            <strong>${namaEvent}</strong>
+        </td>
+
+        <td>
+            ${kategori}
+        </td>
+
+        <td>
+            ${lokasi}
+        </td>
+
+        <td>
+            ${tanggal}
+        </td>
+
+        <td>
+            -
+        </td>
+
+        <td>
+            <span class="status-pill orange">
+                ${status.toUpperCase()}
+            </span>
+        </td>
+
+        <td>
+            <div class="action-buttons">
+
+                <button type="button">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+
+                <button type="button">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+
+            </div>
+        </td>
+    `;
+
+    tableBody.appendChild(row);
+
+    closeAdminModal('eventFormModal');
+
+    form.reset();
 }
 
 
@@ -697,6 +740,9 @@ window.addEventListener(
     }
 );
 
+window.openEventForm = openEventForm;
+window.closeAdminModal = closeAdminModal;
+window.saveEvent = saveEvent;
 
 /* =========================================================
    INITIAL LOAD

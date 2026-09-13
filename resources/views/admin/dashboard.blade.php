@@ -592,7 +592,425 @@
 </div>
 
         </section>
+<!-- EVENT MANAGEMENT -->
+<section
+    class="admin-section"
+    id="events"
+>
 
+    <div class="section-top">
+
+        <div>
+            <span class="topbar-label">
+                CONTENT
+            </span>
+
+            <h2>
+                Event Management
+            </h2>
+
+            <p>
+                Kelola event yang ditampilkan pada website TIXORA.
+            </p>
+        </div>
+
+        <button
+    class="primary-button"
+    onclick="openEventForm()"
+>
+    <i class="fa-solid fa-plus"></i>
+    Tambah Event
+</button>
+    </div>
+
+
+    <!-- FILTER -->
+    <div class="filter-bar">
+
+        <div class="search-admin">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                placeholder="Cari event..."
+            >
+
+        </div>
+
+        <select>
+            <option>Semua Kategori</option>
+            <option>Music</option>
+            <option>Sports</option>
+            <option>Esports</option>
+            <option>Festival</option>
+        </select>
+
+        <select>
+            <option>Semua Status</option>
+            <option>On Going</option>
+            <option>Coming Soon</option>
+            <option>Past Event</option>
+        </select>
+
+    </div>
+
+
+    <!-- EVENT TABLE -->
+    <div class="panel">
+
+        <div class="table-wrapper">
+
+            <table id="eventTable">
+
+                <thead>
+                    <tr>
+                        <th>EVENT</th>
+                        <th>CATEGORY</th>
+                        <th>LOCATION</th>
+                        <th>DATE</th>
+                        <th>PRICE</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                MPL ID Season 18
+                            </strong>
+                        </td>
+
+                        <td>
+                            Esports
+                        </td>
+
+                        <td>
+                            Jakarta
+                        </td>
+
+                        <td>
+                            2026
+                        </td>
+
+                        <td>
+                            Rp85K - Rp150K
+                        </td>
+
+                        <td>
+                            <span class="status-pill green">
+                                ON GOING
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="action-buttons">
+
+                                <button>
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                Kahitna 40 Tahun
+                            </strong>
+                        </td>
+
+                        <td>
+                            Music
+                        </td>
+
+                        <td>
+                            Tangerang
+                        </td>
+
+                        <td>
+                            5 Sep 2026
+                        </td>
+
+                        <td>
+                            Rp975K - Rp5M
+                        </td>
+
+                        <td>
+                            <span class="status-pill orange">
+                                COMING
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="action-buttons">
+
+                                <button>
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                Jakarta Music Fest
+                            </strong>
+                        </td>
+
+                        <td>
+                            Music
+                        </td>
+
+                        <td>
+                            Jakarta
+                        </td>
+
+                        <td>
+                            12 Sep 2026
+                        </td>
+
+                        <td>
+                            Rp850K - Rp4M
+                        </td>
+
+                        <td>
+                            <span class="status-pill green">
+                                ON GOING
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="action-buttons">
+
+                                <button>
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+
+                                <button>
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- EVENT FORM MODAL -->
+<div
+    class="admin-modal"
+    id="eventFormModal"
+>
+
+    <div
+        class="admin-modal-overlay"
+        onclick="closeAdminModal('eventFormModal')"
+    ></div>
+
+
+    <div class="admin-modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeAdminModal('eventFormModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+
+        <div class="modal-header">
+
+            <span>
+                EVENT MANAGEMENT
+            </span>
+
+            <h2>
+                Tambah Event
+            </h2>
+
+            <p>
+                Masukkan informasi event baru.
+            </p>
+
+        </div>
+
+
+        <form
+            class="admin-form"
+            onsubmit="saveEvent(event)"
+        >
+
+            <label>
+                Nama Event
+            </label>
+
+            <input
+                type="text"
+                placeholder="Contoh: TIXORA Music Festival"
+                required
+            >
+
+
+            <label>
+                Kategori
+            </label>
+
+            <select required>
+
+                <option value="">
+                    Pilih kategori
+                </option>
+
+                <option>Music</option>
+                <option>Sports</option>
+                <option>Esports</option>
+                <option>Festival</option>
+                <option>Theater</option>
+
+            </select>
+
+
+            <div class="form-row">
+
+                <div>
+
+                    <label>
+                        Lokasi
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="Jakarta"
+                        required
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Venue
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="GBK"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div>
+
+                    <label>
+                        Tanggal
+                    </label>
+
+                    <input
+                        type="date"
+                        required
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select required>
+
+                        <option>
+                            Coming Soon
+                        </option>
+
+                        <option>
+                            On Going
+                        </option>
+
+                        <option>
+                            Past Event
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <label>
+                Deskripsi
+            </label>
+
+            <textarea
+                rows="4"
+                placeholder="Deskripsi event..."
+            ></textarea>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="closeAdminModal('eventFormModal')"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Simpan Event
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
     </main>
 
 </body>
