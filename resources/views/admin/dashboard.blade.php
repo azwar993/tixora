@@ -826,6 +826,268 @@
     </div>
 
 </section>
+
+<!-- CATEGORY SECTION + --> 
+ <section
+    class="admin-section"
+    id="categories"
+>
+    <div class="section-top">
+        <div>
+            <span class="topbar-label">
+                CATALOG
+            </span>
+
+            <h2>
+                Categories
+            </h2>
+
+            <p>
+                Kelola kategori event yang tersedia di platform TIXORA.
+            </p>
+        </div>
+
+        <button
+            class="primary-button"
+            onclick="openCategoryForm()"
+        >
+            <i class="fa-solid fa-plus"></i>
+            Tambah Kategori
+        </button>
+    </div>
+
+    <div class="filter-bar">
+        <div class="search-admin">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+                type="text"
+                id="categorySearch"
+                placeholder="Cari kategori..."
+                oninput="filterCategoryAdmin(this.value)"
+            >
+        </div>
+
+        <select id="categoryStatusFilter">
+            <option value="all">Semua Status</option>
+            <option value="active">Aktif</option>
+            <option value="inactive">Non Aktif</option>
+        </select>
+    </div>
+
+    <div class="category-admin-grid" id="categoryGrid">
+        <div class="admin-category-card" data-status="active">
+            <div class="category-admin-icon purple">
+                <i class="fa-solid fa-music"></i>
+            </div>
+
+            <h3>Music</h3>
+            <span>18 event aktif</span>
+
+            <div>
+                <button type="button" onclick="openCategoryForm('Music')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
+                    </svg>
+                </button>
+                <button type="button" onclick="deleteCategory('Music')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-category-card" data-status="active">
+            <div class="category-admin-icon blue">
+                <i class="fa-solid fa-futbol"></i>
+            </div>
+
+            <h3>Sports</h3>
+            <span>9 event aktif</span>
+
+            <div>
+                <button type="button" onclick="openCategoryForm('Sports')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
+                    </svg>
+                </button>
+                <button type="button" onclick="deleteCategory('Sports')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-category-card" data-status="active">
+            <div class="category-admin-icon green">
+                <i class="fa-solid fa-gamepad"></i>
+            </div>
+
+            <h3>Esports</h3>
+            <span>12 event aktif</span>
+
+            <div>
+                <button type="button" onclick="openCategoryForm('Esports')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
+                    </svg>
+                </button>
+                <button type="button" onclick="deleteCategory('Esports')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-category-card" data-status="inactive">
+            <div class="category-admin-icon orange">
+                <i class="fa-solid fa-star"></i>
+            </div>
+
+            <h3>Festival</h3>
+            <span>3 event aktif</span>
+
+            <div>
+                <button type="button" onclick="openCategoryForm('Festival')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
+                    </svg>
+                </button>
+                <button type="button" onclick="deleteCategory('Festival')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-category-card" data-status="active">
+            <div class="category-admin-icon purple">
+                <i class="fa-solid fa-masks-theater"></i>
+            </div>
+
+            <h3>Theater</h3>
+            <span>6 event aktif</span>
+
+            <div>
+                <button type="button" onclick="openCategoryForm('Theater')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
+                    </svg>
+                </button>
+                <button type="button" onclick="deleteCategory('Theater')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-category-card" data-status="inactive">
+            <div class="category-admin-icon blue">
+                <i class="fa-solid fa-people-group"></i>
+            </div>
+
+            <h3>Community</h3>
+            <span>0 event aktif</span>
+
+            <div>
+                <button type="button" onclick="openCategoryForm('Community')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
+                    </svg>
+                </button>
+                <button type="button" onclick="deleteCategory('Community')">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="admin-modal" id="categoryFormModal">
+    <div
+        class="admin-modal-overlay"
+        onclick="closeAdminModal('categoryFormModal')"
+    ></div>
+
+    <div class="admin-modal-box">
+        <button
+            class="modal-close"
+            onclick="closeAdminModal('categoryFormModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-header">
+            <span>
+                CATEGORY MANAGEMENT
+            </span>
+
+            <h2 id="categoryModalTitle">
+                Tambah Kategori
+            </h2>
+
+            <p>
+                Masukkan informasi kategori baru.
+            </p>
+        </div>
+
+        <form class="admin-form" onsubmit="saveCategory(event)">
+            <input type="hidden" id="categoryEditingId" value="">
+            <label>
+                Nama Kategori
+            </label>
+
+            <input
+                id="categoryName"
+                type="text"
+                placeholder="Contoh: Workshop"
+                required
+            >
+
+            <label>
+                Status
+            </label>
+
+            <select id="categoryStatus" required>
+                <option value="active">Aktif</option>
+                <option value="inactive">Non Aktif</option>
+            </select>
+
+            <label>
+                Deskripsi
+            </label>
+
+            <textarea
+                id="categoryDescription"
+                rows="4"
+                placeholder="Deskripsi kategori..."
+            ></textarea>
+
+            <div class="modal-actions">
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="closeAdminModal('categoryFormModal')"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Simpan Kategori
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 <!-- EVENT FORM MODAL -->
 <div
     class="admin-modal"
