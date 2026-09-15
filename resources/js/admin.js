@@ -158,32 +158,55 @@ function closeSidebar() {
 }
 
 
+
 /* =========================================================
    EVENT MODAL
 ========================================================= */
 
+function openEditEventForm(
+    id,
+    name,
+    category,
+    location,
+    venue,
+    eventDate,
+    status,
+    description
+) {
+    document.getElementById('edit_name').value = name;
+    document.getElementById('edit_category').value = category;
+    document.getElementById('edit_location').value = location;
+    document.getElementById('edit_venue').value = venue;
+    document.getElementById('edit_event_date').value = eventDate;
+    document.getElementById('edit_status').value = status;
+    document.getElementById('edit_description').value = description ?? '';
+
+    document.getElementById('editEventForm').action =
+        `/admin/events/${id}`;
+
+    document.getElementById('editEventModal').classList.add('active');
+}
+
+
+/* =========================================================
+   ADD EVENT MODAL
+========================================================= */
+
 function openEventForm() {
+    const modal = document.getElementById('eventFormModal');
 
-    const modal =
-        document.getElementById(
-            "eventFormModal"
-        );
+    if (!modal) {
+        console.error('Modal eventFormModal tidak ditemukan.');
+        return;
+    }
 
-
-    modal.classList.add(
-        "active"
-    );
-
-
-    document.body.style.overflow =
-        "hidden";
+    modal.classList.add('active');
 }
 
 
 /* =========================================================
    CLOSE MODAL
 ========================================================= */
-
 function closeAdminModal(id) {
 
     const modal =
@@ -327,38 +350,72 @@ function deleteItem(
 
 
 /* =========================================================
-   FILTER EVENT
+   EVENT SEARCH & FILTER
 ========================================================= */
 
-function filterAdminEvents(
-    keyword
-) {
+function filterAdminEvents() {
+
+    const searchInput =
+        document.getElementById('eventSearch');
+
+    const categoryFilter =
+        document.getElementById('eventCategoryFilter');
+
+    const statusFilter =
+        document.getElementById('eventStatusFilter');
 
     const rows =
         document.querySelectorAll(
-            "#eventTable tbody tr"
+            '#eventTable tbody tr[data-event-row]'
         );
 
+    const keyword =
+        searchInput
+            ? searchInput.value.toLowerCase().trim()
+            : '';
 
-    const value =
-        keyword
-            .toLowerCase()
-            .trim();
+    const category =
+        categoryFilter
+            ? categoryFilter.value.toLowerCase()
+            : '';
 
+    const status =
+        statusFilter
+            ? statusFilter.value
+            : '';
 
     rows.forEach(row => {
 
-        const text =
-            row.innerText.toLowerCase();
+        const eventName =
+            row.dataset.name.toLowerCase();
 
+        const eventCategory =
+            row.dataset.category.toLowerCase();
+
+        const eventStatus =
+            row.dataset.status;
+
+        const matchesSearch =
+            eventName.includes(keyword) ||
+            eventCategory.includes(keyword) ||
+            row.dataset.location.toLowerCase().includes(keyword) ||
+            row.dataset.venue.toLowerCase().includes(keyword);
+
+        const matchesCategory =
+            !category ||
+            eventCategory === category;
+
+        const matchesStatus =
+            !status ||
+            eventStatus === status;
 
         row.style.display =
-            text.includes(value)
-                ? ""
-                : "none";
-
+            matchesSearch &&
+            matchesCategory &&
+            matchesStatus
+                ? ''
+                : 'none';
     });
-
 }
 
 
@@ -740,20 +797,73 @@ window.addEventListener(
     }
 );
 
-window.openEventForm = openEventForm;
 window.closeAdminModal = closeAdminModal;
 window.saveEvent = saveEvent;
-
+window.openEditEventForm = openEditEventForm;
+window.openEventForm = openEventForm;
+window.showSection = showSection;
+window.toggleSidebar = toggleSidebar;
 /* =========================================================
    INITIAL LOAD
 ========================================================= */
 
 document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+    'DOMContentLoaded',
+    function () {
 
-        showSection(
-            "dashboard"
+        showSection('dashboard');
+
+        const searchInput =
+            document.getElementById('eventSearch');
+
+        const categoryFilter =
+            document.getElementById(
+                'eventCategoryFilter'
+            );
+
+        const statusFilter =
+            document.getElementById(
+                'eventStatusFilter'
+            );
+
+        /* SEARCH SAAT MENGETIK */
+        searchInput?.addEventListener(
+            'input',
+            function () {
+                filterAdminEvents();
+            }
+        );
+
+        /* SEARCH SAAT TEKAN ENTER */
+        searchInput?.addEventListener(
+            'keydown',
+            function (event) {
+
+                if (event.key === 'Enter') {
+
+                    event.preventDefault();
+
+                    filterAdminEvents();
+
+                }
+
+            }
+        );
+
+        /* FILTER KATEGORI */
+        categoryFilter?.addEventListener(
+            'change',
+            function () {
+                filterAdminEvents();
+            }
+        );
+
+        /* FILTER STATUS */
+        statusFilter?.addEventListener(
+            'change',
+            function () {
+                filterAdminEvents();
+            }
         );
 
     }

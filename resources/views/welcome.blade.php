@@ -2669,9 +2669,9 @@ section {
     Register
 </a>
 
-            <a href="admin.html" class="admin-login-link">
+            <!-- <a href="admin.html" class="admin-login-link">
                 Admin
-            </a>
+            </a> -->
 
 
             <!-- USER PROFILE -->

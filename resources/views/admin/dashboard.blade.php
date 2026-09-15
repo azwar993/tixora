@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
+      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Dashboard Admin | TIXORA</title>
@@ -10,6 +10,11 @@
         'resources/css/admin.css',
         'resources/js/admin.js'
     ])
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 </head>
 
 <body>
@@ -328,7 +333,7 @@
                 </h3>
             </div>
 
-            <select>
+            <select name="category">
                 <option>2026</option>
                 <option>2025</option>
             </select>
@@ -627,197 +632,157 @@
     <!-- FILTER -->
     <div class="filter-bar">
 
-        <div class="search-admin">
+    <div class="search-admin">
 
-            <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-solid fa-magnifying-glass"></i>
 
-            <input
-                type="text"
-                placeholder="Cari event..."
-            >
-
-        </div>
-
-        <select>
-            <option>Semua Kategori</option>
-            <option>Music</option>
-            <option>Sports</option>
-            <option>Esports</option>
-            <option>Festival</option>
-        </select>
-
-        <select>
-            <option>Semua Status</option>
-            <option>On Going</option>
-            <option>Coming Soon</option>
-            <option>Past Event</option>
-        </select>
+        <input
+            type="text"
+            id="eventSearch"
+            placeholder="Cari event..."
+        >
 
     </div>
 
+    <select id="eventCategoryFilter">
+        <option value="">Semua Kategori</option>
+        <option value="Music">Music</option>
+        <option value="Sports">Sports</option>
+        <option value="Esports">Esports</option>
+        <option value="Festival">Festival</option>
+        <option value="Theater">Theater</option>
+    </select>
 
-    <!-- EVENT TABLE -->
-    <div class="panel">
+    <select id="eventStatusFilter">
+        <option value="">Semua Status</option>
+        <option value="on_going">On Going</option>
+        <option value="coming_soon">Coming Soon</option>
+        <option value="past_event">Past Event</option>
+    </select>
 
-        <div class="table-wrapper">
+</div>
 
-            <table id="eventTable">
+    <<!-- EVENT TABLE -->
+<div class="panel">
 
-                <thead>
-                    <tr>
-                        <th>EVENT</th>
-                        <th>CATEGORY</th>
-                        <th>LOCATION</th>
-                        <th>DATE</th>
-                        <th>PRICE</th>
-                        <th>STATUS</th>
-                        <th>ACTION</th>
-                    </tr>
-                </thead>
+    <div class="table-wrapper">
+
+        <table id="eventTable">
+
+            <thead>
+                <tr>
+                    <th>EVENT</th>
+                    <th>CATEGORY</th>
+                    <th>LOCATION</th>
+                    <th>VENUE</th>
+                    <th>DATE</th>
+                    <th>PRICE</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
 
                 <tbody>
 
-                    <tr>
+@forelse ($events as $event)
 
-                        <td>
-                            <strong>
-                                MPL ID Season 18
-                            </strong>
-                        </td>
+    <tr
+        data-event-row
+        data-name="{{ strtolower($event->name) }}"
+        data-category="{{ strtolower($event->category) }}"
+        data-location="{{ strtolower($event->location) }}"
+        data-venue="{{ strtolower($event->venue) }}"
+        data-status="{{ $event->status }}"
+    >
 
-                        <td>
-                            Esports
-                        </td>
+        <td>
+            <strong>
+                {{ $event->name }}
+            </strong>
+        </td>
 
-                        <td>
-                            Jakarta
-                        </td>
+        <td>
+            {{ $event->category }}
+        </td>
 
-                        <td>
-                            2026
-                        </td>
+        <td>
+            {{ $event->location }}
+        </td>
 
-                        <td>
-                            Rp85K - Rp150K
-                        </td>
+        <td>
+            {{ $event->venue }}
+        </td>
 
-                        <td>
-                            <span class="status-pill green">
-                                ON GOING
-                            </span>
-                        </td>
+        <td>
+            {{ $event->event_date->format('d M Y') }}
+        </td>
 
-                        <td>
-                            <div class="action-buttons">
+        <td>
+            -
+        </td>
 
-                                <button>
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
+        <td>
+            <span class="status-pill
+                @if($event->status === 'on_going')
+                    green
+                @elseif($event->status === 'coming_soon')
+                    orange
+                @else
+                    purple
+                @endif
+            ">
+                {{ strtoupper(str_replace('_', ' ', $event->status)) }}
+            </span>
+        </td>
 
-                                <button>
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+        <td>
+            <div class="action-buttons">
 
-                            </div>
-                        </td>
+                <button
+                    type="button"
+                    onclick="openEditEventForm(
+                        {{ $event->id }},
+                        {{ Js::from($event->name) }},
+                        {{ Js::from($event->category) }},
+                        {{ Js::from($event->location) }},
+                        {{ Js::from($event->venue) }},
+                        {{ Js::from($event->event_date->format('Y-m-d')) }},
+                        {{ Js::from($event->status) }},
+                        {{ Js::from($event->description) }}
+                    )"
+                >
+                    <i class="fa-solid fa-pen"></i>
+                </button>
 
-                    </tr>
+                <form
+                    method="POST"
+                    action="{{ route('admin.events.destroy', $event->id) }}"
+                    onsubmit="return confirm('Yakin ingin menghapus event ini?')"
+                >
+                    @csrf
+                    @method('DELETE')
 
+                    <button type="submit">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
 
-                    <tr>
+            </div>
+        </td>
 
-                        <td>
-                            <strong>
-                                Kahitna 40 Tahun
-                            </strong>
-                        </td>
+    </tr>
 
-                        <td>
-                            Music
-                        </td>
+@empty
 
-                        <td>
-                            Tangerang
-                        </td>
+        <tr>
+            <td colspan="8" style="text-align: center;">
+                Belum ada event.
+            </td>
+        </tr>
 
-                        <td>
-                            5 Sep 2026
-                        </td>
+    @endforelse
 
-                        <td>
-                            Rp975K - Rp5M
-                        </td>
-
-                        <td>
-                            <span class="status-pill orange">
-                                COMING
-                            </span>
-                        </td>
-
-                        <td>
-                            <div class="action-buttons">
-
-                                <button>
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-
-                            </div>
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>
-                            <strong>
-                                Jakarta Music Fest
-                            </strong>
-                        </td>
-
-                        <td>
-                            Music
-                        </td>
-
-                        <td>
-                            Jakarta
-                        </td>
-
-                        <td>
-                            12 Sep 2026
-                        </td>
-
-                        <td>
-                            Rp850K - Rp4M
-                        </td>
-
-                        <td>
-                            <span class="status-pill green">
-                                ON GOING
-                            </span>
-                        </td>
-
-                        <td>
-                            <div class="action-buttons">
-
-                                <button>
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-
-                                <button>
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-
-                            </div>
-                        </td>
-
-                    </tr>
-
-                </tbody>
+</tbody>
 
             </table>
 
@@ -827,6 +792,184 @@
 
 </section>
 <!-- EVENT FORM MODAL -->
+<!-- EDIT EVENT MODAL -->
+<div
+    class="admin-modal"
+    id="editEventModal"
+>
+
+    <div
+        class="admin-modal-overlay"
+        onclick="closeAdminModal('editEventModal')"
+    ></div>
+
+    <div class="admin-modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeAdminModal('editEventModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-header">
+
+            <span>
+                EVENT MANAGEMENT
+            </span>
+
+            <h2>
+                Edit Event
+            </h2>
+
+            <p>
+                Perbarui informasi event.
+            </p>
+
+        </div>
+
+        <form
+            class="admin-form"
+            id="editEventForm"
+            method="POST"
+        >
+            @csrf
+            @method('PUT')
+
+            <label>
+                Nama Event
+            </label>
+
+            <input
+                type="text"
+                id="edit_name"
+                name="name"
+                required
+            >
+
+            <label>
+                Kategori
+            </label>
+
+            <select
+                id="edit_category"
+                name="category"
+                required
+            >
+                <option value="Music">Music</option>
+                <option value="Sports">Sports</option>
+                <option value="Esports">Esports</option>
+                <option value="Festival">Festival</option>
+                <option value="Theater">Theater</option>
+            </select>
+
+            <div class="form-row">
+
+                <div>
+
+                    <label>
+                        Lokasi
+                    </label>
+
+                    <input
+                        type="text"
+                        id="edit_location"
+                        name="location"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label>
+                        Venue
+                    </label>
+
+                    <input
+                        type="text"
+                        id="edit_venue"
+                        name="venue"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <div>
+
+                    <label>
+                        Tanggal
+                    </label>
+
+                    <input
+                        type="date"
+                        id="edit_event_date"
+                        name="event_date"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select
+                        id="edit_status"
+                        name="status"
+                        required
+                    >
+                        <option value="coming_soon">Coming Soon</option>
+                        <option value="on_going">On Going</option>
+                        <option value="past_event">Past Event</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <label>
+                Deskripsi
+            </label>
+
+            <textarea
+                id="edit_description"
+                name="description"
+                rows="4"
+                placeholder="Deskripsi event..."
+            ></textarea>
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="closeAdminModal('editEventModal')"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Simpan Perubahan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<!-- ADD EVENT MODAL -->
 <div
     class="admin-modal"
     id="eventFormModal"
@@ -837,16 +980,15 @@
         onclick="closeAdminModal('eventFormModal')"
     ></div>
 
-
     <div class="admin-modal-box">
 
         <button
+            type="button"
             class="modal-close"
             onclick="closeAdminModal('eventFormModal')"
         >
             <i class="fa-solid fa-xmark"></i>
         </button>
-
 
         <div class="modal-header">
 
@@ -859,16 +1001,17 @@
             </h2>
 
             <p>
-                Masukkan informasi event baru.
+                Tambahkan informasi event baru.
             </p>
 
         </div>
 
-
         <form
             class="admin-form"
-            onsubmit="saveEvent(event)"
+            method="POST"
+            action="{{ route('admin.events.store') }}"
         >
+            @csrf
 
             <label>
                 Nama Event
@@ -876,29 +1019,25 @@
 
             <input
                 type="text"
-                placeholder="Contoh: TIXORA Music Festival"
+                name="name"
                 required
             >
-
 
             <label>
                 Kategori
             </label>
 
-            <select required>
-
-                <option value="">
-                    Pilih kategori
-                </option>
-
-                <option>Music</option>
-                <option>Sports</option>
-                <option>Esports</option>
-                <option>Festival</option>
-                <option>Theater</option>
-
+            <select
+                name="category"
+                required
+            >
+                <option value="">Pilih Kategori</option>
+                <option value="Music">Music</option>
+                <option value="Sports">Sports</option>
+                <option value="Esports">Esports</option>
+                <option value="Festival">Festival</option>
+                <option value="Theater">Theater</option>
             </select>
-
 
             <div class="form-row">
 
@@ -910,12 +1049,11 @@
 
                     <input
                         type="text"
-                        placeholder="Jakarta"
+                        name="location"
                         required
                     >
 
                 </div>
-
 
                 <div>
 
@@ -925,14 +1063,13 @@
 
                     <input
                         type="text"
-                        placeholder="GBK"
+                        name="venue"
                         required
                     >
 
                 </div>
 
             </div>
-
 
             <div class="form-row">
 
@@ -944,11 +1081,11 @@
 
                     <input
                         type="date"
+                        name="event_date"
                         required
                     >
 
                 </div>
-
 
                 <div>
 
@@ -956,36 +1093,36 @@
                         Status
                     </label>
 
-                    <select required>
-
-                        <option>
+                    <select
+                        name="status"
+                        required
+                    >
+                        <option value="coming_soon">
                             Coming Soon
                         </option>
 
-                        <option>
+                        <option value="on_going">
                             On Going
                         </option>
 
-                        <option>
+                        <option value="past_event">
                             Past Event
                         </option>
-
                     </select>
 
                 </div>
 
             </div>
 
-
             <label>
                 Deskripsi
             </label>
 
             <textarea
+                name="description"
                 rows="4"
                 placeholder="Deskripsi event..."
             ></textarea>
-
 
             <div class="modal-actions">
 
@@ -1001,7 +1138,7 @@
                     type="submit"
                     class="primary-button"
                 >
-                    Simpan Event
+                    Tambah Event
                 </button>
 
             </div>
@@ -1011,6 +1148,7 @@
     </div>
 
 </div>
+
     </main>
 
 </body>
