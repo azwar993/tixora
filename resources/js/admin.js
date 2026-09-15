@@ -507,6 +507,18 @@ function addCategory() {
     );
 }
 
+function openCategoryForm() {
+    const modal = document.getElementById('categoryFormModal');
+
+    if (!modal) {
+        console.error('Modal categoryFormModal tidak ditemukan.');
+        return;
+    }
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
 
 /* =========================================================
    ADD ARTICLE
@@ -879,6 +891,7 @@ window.saveEvent = saveEvent;
 window.openEditEventForm = openEditEventForm;
 window.openRejectEventForm = openRejectEventForm;
 window.openEventForm = openEventForm;
+window.openCategoryForm = openCategoryForm;
 window.showSection = showSection;
 window.toggleSidebar = toggleSidebar;
 /* =========================================================

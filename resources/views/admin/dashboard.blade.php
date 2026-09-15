@@ -885,7 +885,259 @@
     </div>
 
 </section>
+<!-- CATEGORIES -->
+<section
+    class="admin-section"
+    id="categories"
+>
 
+    <div class="section-top">
+
+        <div>
+            <span class="topbar-label">
+                CONTENT
+            </span>
+
+            <h2>
+                Categories
+            </h2>
+
+            <p>
+                Kelola kategori event yang tersedia di TIXORA.
+            </p>
+        </div>
+
+        <button
+            class="primary-button"
+            type="button"
+            onclick="openCategoryForm()"
+        >
+            <i class="fa-solid fa-plus"></i>
+            Tambah Category
+        </button>
+
+    </div>
+
+
+    <!-- FILTER -->
+    <div class="filter-bar">
+
+        <div class="search-admin">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="categorySearch"
+                placeholder="Cari kategori..."
+            >
+
+        </div>
+
+
+        <select id="categoryStatusFilter">
+            <option value="">Semua Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+
+    </div>
+
+
+    <!-- CATEGORY TABLE -->
+    <div class="panel">
+
+        <div class="table-wrapper">
+
+            <table id="categoryTable">
+
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>CATEGORY</th>
+                        <th>DESCRIPTION</th>
+                        <th>TOTAL EVENT</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @forelse ($categories as $category)
+
+                        @php
+                            $categoryEventCount = $events
+                                ->where('category', $category->name)
+                                ->count();
+                        @endphp
+
+                        <tr
+                            data-category-row
+                            data-name="{{ strtolower($category->name) }}"
+                            data-description="{{ strtolower($category->description ?? '') }}"
+                            data-status="{{ $category->status }}"
+                        >
+
+                            <!-- NO -->
+                            <td>
+                                {{ $loop->iteration }}
+                            </td>
+
+
+                            <!-- CATEGORY -->
+                            <td>
+                                <strong>
+                                    {{ $category->name }}
+                                </strong>
+                            </td>
+
+
+                            <!-- DESCRIPTION -->
+                            <td>
+                                {{ $category->description ?: '-' }}
+                            </td>
+
+
+                            <!-- TOTAL EVENT -->
+                            <td>
+                                {{ $categoryEventCount }}
+                            </td>
+
+
+                            <!-- STATUS -->
+                            <td>
+
+                                @if($category->status === 'active')
+
+                                    <span class="status-pill green">
+                                        ACTIVE
+                                    </span>
+
+                                @else
+
+                                    <span class="status-pill purple">
+                                        INACTIVE
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+
+                            <!-- ACTION -->
+                            <td>
+
+                                <div class="action-buttons">
+
+                                    <!-- EDIT -->
+                                    <button
+                                        type="button"
+                                        title="Edit Category"
+                                        onclick="openEditCategoryForm(
+                                            {{ $category->id }},
+                                            {{ Js::from($category->name) }},
+                                            {{ Js::from($category->description) }},
+                                            {{ Js::from($category->status) }}
+                                        )"
+                                    >
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+
+
+                                    <!-- ACTIVATE / DEACTIVATE -->
+                                    <form
+                                        method="POST"
+                                        action="{{ route('admin.categories.update', $category->id) }}"
+                                        onsubmit="return confirm(
+                                            '{{ $category->status === 'active'
+                                                ? 'Nonaktifkan category ini?'
+                                                : 'Aktifkan category ini?' }}'
+                                        )"
+                                    >
+
+                                        @csrf
+                                        @method('PUT')
+
+                                        <input
+                                            type="hidden"
+                                            name="name"
+                                            value="{{ $category->name }}"
+                                        >
+
+                                        <input
+                                            type="hidden"
+                                            name="description"
+                                            value="{{ $category->description }}"
+                                        >
+
+                                        <input
+                                            type="hidden"
+                                            name="status"
+                                            value="{{ $category->status === 'active'
+                                                ? 'inactive'
+                                                : 'active' }}"
+                                        >
+
+                                        <button
+                                            type="submit"
+                                            title="{{ $category->status === 'active'
+                                                ? 'Deactivate Category'
+                                                : 'Activate Category' }}"
+                                        >
+                                            <i class="fa-solid fa-power-off"></i>
+                                        </button>
+
+                                    </form>
+
+
+                                    <!-- DELETE -->
+                                    <form
+                                        method="POST"
+                                        action="{{ route('admin.categories.destroy', $category->id) }}"
+                                        onsubmit="return confirm('Yakin ingin menghapus category ini?')"
+                                    >
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            title="Hapus Category"
+                                        >
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+                            <td
+                                colspan="6"
+                                style="text-align: center;"
+                            >
+                                Belum ada category.
+                            </td>
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
 
 <!-- TICKET MANAGEMENT -->
 <section
@@ -925,12 +1177,29 @@
                         <th>PRICE</th>
                         <th>QUOTA</th>
                         <th>SOLD</th>
+                        <th>REMAINING</th>
+                        <th>STATUS</th>
                     </tr>
                 </thead>
 
                 <tbody>
 
                     @forelse ($tickets as $ticket)
+
+                        @php
+                            $remaining = max(0, $ticket->quota - $ticket->sold);
+
+                            if ($remaining <= 0) {
+                                $ticketStatus = 'Sold Out';
+                                $statusClass = 'status-danger';
+                            } elseif ($remaining <= ($ticket->quota * 0.2)) {
+                                $ticketStatus = 'Low Stock';
+                                $statusClass = 'status-warning';
+                            } else {
+                                $ticketStatus = 'Available';
+                                $statusClass = 'status-success';
+                            }
+                        @endphp
 
                         <tr>
 
@@ -941,7 +1210,7 @@
                             </td>
 
                             <td>
-                                {{ $ticket->event->name }}
+                                {{ $ticket->event->name ?? '-' }}
                             </td>
 
                             <td>
@@ -949,11 +1218,21 @@
                             </td>
 
                             <td>
-                                {{ $ticket->quota }}
+                                {{ number_format($ticket->quota, 0, ',', '.') }}
                             </td>
 
                             <td>
-                                {{ $ticket->sold }}
+                                {{ number_format($ticket->sold, 0, ',', '.') }}
+                            </td>
+
+                            <td>
+                                {{ number_format($remaining, 0, ',', '.') }}
+                            </td>
+
+                            <td>
+                                <span class="status-pill {{ $statusClass }}">
+                                    {{ $ticketStatus }}
+                                </span>
                             </td>
 
                         </tr>
@@ -961,7 +1240,7 @@
                     @empty
 
                         <tr>
-                            <td colspan="5" style="text-align: center;">
+                            <td colspan="7" style="text-align: center;">
                                 Belum ada ticket.
                             </td>
                         </tr>
@@ -1426,6 +1705,228 @@
 
     </div>
 
+</div>
+<!-- ADD CATEGORY MODAL -->
+<div
+    class="admin-modal"
+    id="categoryFormModal"
+>
+
+    <div
+        class="admin-modal-overlay"
+        onclick="closeAdminModal('categoryFormModal')"
+    ></div>
+
+    <div class="admin-modal-box">
+
+        <button
+            type="button"
+            class="modal-close"
+            onclick="closeAdminModal('categoryFormModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-header">
+
+            <span>
+                CATEGORY MANAGEMENT
+            </span>
+
+            <h2>
+                Tambah Category
+            </h2>
+
+            <p>
+                Tambahkan kategori event baru ke TIXORA.
+            </p>
+
+        </div>
+
+        <form
+            class="admin-form"
+            method="POST"
+            action="{{ route('admin.categories.store') }}"
+        >
+
+            @csrf
+
+            <label>
+                Nama Category
+            </label>
+
+            <input
+                type="text"
+                name="name"
+                id="category_name"
+                placeholder="Contoh: Music"
+                required
+            >
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                name="description"
+                id="category_description"
+                rows="4"
+                placeholder="Deskripsi category..."
+            ></textarea>
+
+            <label>
+                Status
+            </label>
+
+            <select
+                name="status"
+                id="category_status"
+                required
+            >
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="inactive">
+                    Inactive
+                </option>
+            </select>
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="closeAdminModal('categoryFormModal')"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    Tambah Category
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<!-- EDIT CATEGORY MODAL -->
+<div
+    class="admin-modal"
+    id="editCategoryModal"
+>
+
+    <div
+        class="admin-modal-overlay"
+        onclick="closeAdminModal('editCategoryModal')"
+    ></div>
+
+    <div class="admin-modal-box">
+
+        <button
+            type="button"
+            class="modal-close"
+            onclick="closeAdminModal('editCategoryModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-header">
+
+            <span>
+                CATEGORY MANAGEMENT
+            </span>
+
+            <h2>
+                Edit Category
+            </h2>
+
+            <p>
+                Perbarui informasi category.
+            </p>
+
+        </div>
+
+        <form
+            class="admin-form"
+            id="editCategoryForm"
+            method="POST"
+        >
+
+            @csrf
+            @method('PUT')
+
+            <label>
+                Nama Category
+            </label>
+
+            <input
+                type="text"
+                name="name"
+                id="edit_category_name"
+                required
+            >
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                name="description"
+                id="edit_category_description"
+                rows="4"
+                placeholder="Deskripsi category..."
+            ></textarea>
+
+            <label>
+                Status
+            </label>
+
+            <select
+                name="status"
+                id="edit_category_status"
+                required
+            >
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="inactive">
+                    Inactive
+                </option>
+            </select>
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="closeAdminModal('editCategoryModal')"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    <i class="fa-solid fa-save"></i>
+                    Simpan Perubahan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
 </div>
 
     </main>

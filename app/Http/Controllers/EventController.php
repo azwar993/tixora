@@ -5,40 +5,44 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
     public function index()
-    {
-        $events = Event::latest()->get();
+{
+    $events = Event::latest()->get();
 
-        $tickets = Ticket::with('event')
-            ->latest()
-            ->get();
+    $tickets = Ticket::with('event')
+        ->latest()
+        ->get();
 
-        $totalEvents = Event::count();
+    $categories = Category::latest()->get();
 
-        $eventsThisMonth = Event::whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
+    $totalEvents = Event::count();
 
-        $totalUsers = User::where('role', 'user')->count();
+    $eventsThisMonth = Event::whereMonth('created_at', now()->month)
+        ->whereYear('created_at', now()->year)
+        ->count();
 
-        $usersThisMonth = User::where('role', 'user')
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->count();
+    $totalUsers = User::where('role', 'user')->count();
 
-        return view('admin.dashboard', compact(
-            'events',
-            'tickets',
-            'totalEvents',
-            'eventsThisMonth',
-            'totalUsers',
-            'usersThisMonth'
-        ));
-    }
+    $usersThisMonth = User::where('role', 'user')
+        ->whereMonth('created_at', now()->month)
+        ->whereYear('created_at', now()->year)
+        ->count();
+
+    return view('admin.dashboard', compact(
+        'events',
+        'tickets',
+        'categories',
+        'totalEvents',
+        'eventsThisMonth',
+        'totalUsers',
+        'usersThisMonth'
+    ));
+}
 
     public function store(Request $request)
     {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
@@ -18,29 +19,45 @@ Route::get('/admin/dashboard', [EventController::class, 'index'])
     ->middleware(['auth', 'admin'])
     ->name('admin.dashboard');
 
-Route::get('/admin/dashboard', [EventController::class, 'index'])
-    ->middleware(['auth','admin'])
-    ->name('admin.dashboard');
-
 Route::post('/admin/events', [EventController::class, 'store'])
-    ->middleware(['auth','admin'])
+    ->middleware(['auth', 'admin'])
     ->name('admin.events.store');
 
 Route::put('/admin/events/{event}', [EventController::class, 'update'])
-    ->middleware(['auth','admin'])
+    ->middleware(['auth', 'admin'])
     ->name('admin.events.update');
 
 Route::delete('/admin/events/{event}', [EventController::class, 'destroy'])
-    ->middleware(['auth','admin'])
+    ->middleware(['auth', 'admin'])
     ->name('admin.events.destroy');
 
 Route::post('/admin/events/{event}/approve', [EventController::class, 'approve'])
-    ->middleware(['auth','admin'])
+    ->middleware(['auth', 'admin'])
     ->name('admin.events.approve');
 
 Route::post('/admin/events/{event}/reject', [EventController::class, 'reject'])
-    ->middleware(['auth','admin'])
+    ->middleware(['auth', 'admin'])
     ->name('admin.events.reject');
+
+
+/*
+|--------------------------------------------------------------------------
+| CATEGORY
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/admin/categories', [CategoryController::class, 'store'])
+    ->middleware(['auth', 'admin'])
+    ->name('admin.categories.store');
+
+Route::put('/admin/categories/{category}', [CategoryController::class, 'update'])
+    ->middleware(['auth', 'admin'])
+    ->name('admin.categories.update');
+
+Route::delete('/admin/categories/{category}', [CategoryController::class, 'destroy'])
+    ->middleware(['auth', 'admin'])
+    ->name('admin.categories.destroy');
+
 
 /*
 |--------------------------------------------------------------------------
