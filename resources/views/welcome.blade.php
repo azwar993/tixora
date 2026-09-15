@@ -22,6 +22,8 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
+    <!-- 1.BARU DITAMBAHKAN: Swiper CSS for carousel -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
 <style>
     /* =========================================================
    TIXORA EVENT TICKETING
@@ -3177,6 +3179,7 @@ section {
             </div>
 
 
+<!-- ++ -->
             <button
                 class="view-all-button"
                 onclick="showAllEvents()"
@@ -3193,10 +3196,62 @@ section {
 
         <!-- EVENTS -->
 
-        <div
-            class="event-grid"
-            id="eventGrid"
-        >
+        <!-- BARU DITAMBAHKAN: carousel rekomendasi event -->
+        <div class="event-carousel-wrapper">
+            <div class="swiper event-carousel">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide px-2">
+                        <article class="event-card event-card--carousel">
+                            <div class="event-card-image">
+                                <img src="{{ asset('images/event-1.jpg') }}" alt="Njonja Ati Soetji">
+                            </div>
+                            <div class="event-card-content">
+                                <p class="event-card-category">Jakarta Selatan</p>
+                                <h3 class="event-card-title">Njonja Ati Soetji</h3>
+                                <p class="event-card-meta">Oleh Regina Art</p>
+                                <div class="event-card-bottom">
+                                    <div>
+                                        <small class="price-label">Mulai dari</small>
+                                        <span class="event-card-price">Rp180.000</span>
+                                    </div>
+                                    <button class="detail-event-button">Beli</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide px-2">
+                        <article class="event-card event-card--carousel">
+                            <div class="event-card-image">
+                                <img src="{{ asset('images/event-2.jpg') }}" alt="2026 HWANG IN YOUP FANMEETING">
+                            </div>
+                            <div class="event-card-content">
+                                <p class="event-card-category">Jakarta Pusat</p>
+                                <h3 class="event-card-title">2026 HWANG IN YOUP FANMEETING</h3>
+                                <p class="event-card-meta">Oleh Three Mountains Ave</p>
+                                <div class="event-card-bottom">
+                                    <div>
+                                        <small class="price-label">Mulai dari</small>
+                                        <span class="event-card-price">Rp1.900.000</span>
+                                    </div>
+                                    <button class="detail-event-button">Beli</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Tambah slide lain di sini / gunakan loop jika diperlukan -->
+                </div>
+
+                <!-- Navigation -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+
+                <!-- Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
         </div>
 
 
@@ -5303,9 +5358,11 @@ section {
 <!-- =====================================================
      JAVASCRIPT
 ===================================================== -->
+<!-- 2. BARU DITAMBAHKAN:lokal script proyek -->
+<script src="script.js"></script>
 
-<script src="script.js">
-
+<script>
+// inline handlers (awalnya di dalam tag src) — baru ditambahkan
 document.getElementById("loginButton").addEventListener("click", () => {
     window.location.href = "dashboard.html";
 });
@@ -5313,6 +5370,33 @@ document.getElementById("loginButton").addEventListener("click", () => {
 document.getElementById("registerButton").addEventListener("click", () => {
     window.location.href = "profile.html";
 });
+</script>
 
+<!-- baru ditambahkan: Swiper JS (CDN) + inisialisasi carousel rekomendasi -->
+<script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Inisialisasi Swiper untuk .event-carousel
+    new Swiper('.event-carousel', {
+        slidesPerView: 1.05,
+        spaceBetween: 12,
+        loop: false,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            640: { slidesPerView: 2.05, spaceBetween: 12 },
+            1024: { slidesPerView: 3.05, spaceBetween: 16 },
+            1280: { slidesPerView: 4.05, spaceBetween: 18 }
+        }
+    });
+});
+</script>
+<!-- SAMPAI SINI -->
 </body>
 </html>
