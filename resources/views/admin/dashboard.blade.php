@@ -265,8 +265,9 @@
 
                     <div>
                         <span>TOTAL EVENT</span>
-                        <strong>12</strong>
-                        <small>+2 bulan ini</small>
+                        <strong>{{ $totalEvents }}</strong>
+                        <small>+{{ $eventsThisMonth }} bulan ini</small>
+                        
                     </div>
 
                 </div>
@@ -310,8 +311,8 @@
 
                     <div>
                         <span>TOTAL USERS</span>
-                        <strong>542</strong>
-                        <small>+31 user</small>
+                        <strong>{{ $totalUsers }}</strong>
+                        <small>+{{ $usersThisMonth }} user bulan ini</small>
                     </div>
 
                 </div>
@@ -615,174 +616,267 @@
             </h2>
 
             <p>
-                Kelola event yang ditampilkan pada website TIXORA.
+                Review dan kelola event yang diajukan untuk TIXORA.
             </p>
         </div>
 
         <button
-    class="primary-button"
-    onclick="openEventForm()"
->
-    <i class="fa-solid fa-plus"></i>
-    Tambah Event
-</button>
+            class="primary-button"
+            onclick="openEventForm()"
+        >
+            <i class="fa-solid fa-plus"></i>
+            Tambah Event
+        </button>
+
     </div>
 
 
     <!-- FILTER -->
     <div class="filter-bar">
 
-    <div class="search-admin">
+        <div class="search-admin">
 
-        <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-magnifying-glass"></i>
 
-        <input
-            type="text"
-            id="eventSearch"
-            placeholder="Cari event..."
-        >
+            <input
+                type="text"
+                id="eventSearch"
+                placeholder="Cari event..."
+            >
+
+        </div>
+
+        <select id="eventCategoryFilter">
+            <option value="">Semua Kategori</option>
+            <option value="Music">Music</option>
+            <option value="Sports">Sports</option>
+            <option value="Esports">Esports</option>
+            <option value="Festival">Festival</option>
+            <option value="Theater">Theater</option>
+        </select>
+
+        <select id="eventStatusFilter">
+            <option value="">Semua Status Event</option>
+            <option value="on_going">On Going</option>
+            <option value="coming_soon">Coming Soon</option>
+            <option value="past_event">Past Event</option>
+        </select>
+
+        <select id="eventApprovalFilter">
+            <option value="">Semua Approval</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+        </select>
 
     </div>
 
-    <select id="eventCategoryFilter">
-        <option value="">Semua Kategori</option>
-        <option value="Music">Music</option>
-        <option value="Sports">Sports</option>
-        <option value="Esports">Esports</option>
-        <option value="Festival">Festival</option>
-        <option value="Theater">Theater</option>
-    </select>
 
-    <select id="eventStatusFilter">
-        <option value="">Semua Status</option>
-        <option value="on_going">On Going</option>
-        <option value="coming_soon">Coming Soon</option>
-        <option value="past_event">Past Event</option>
-    </select>
+    <!-- EVENT TABLE -->
+    <div class="panel">
 
-</div>
+        <div class="table-wrapper">
 
-    <<!-- EVENT TABLE -->
-<div class="panel">
+            <table id="eventTable">
 
-    <div class="table-wrapper">
-
-        <table id="eventTable">
-
-            <thead>
-                <tr>
-                    <th>EVENT</th>
-                    <th>CATEGORY</th>
-                    <th>LOCATION</th>
-                    <th>VENUE</th>
-                    <th>DATE</th>
-                    <th>PRICE</th>
-                    <th>STATUS</th>
-                    <th>ACTION</th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th>EVENT</th>
+                        <th>CATEGORY</th>
+                        <th>LOCATION</th>
+                        <th>VENUE</th>
+                        <th>DATE</th>
+                        <th>PRICE</th>
+                        <th>STATUS</th>
+                        <th>APPROVAL</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
 
                 <tbody>
 
-@forelse ($events as $event)
+                    @forelse ($events as $event)
 
-    <tr
-        data-event-row
-        data-name="{{ strtolower($event->name) }}"
-        data-category="{{ strtolower($event->category) }}"
-        data-location="{{ strtolower($event->location) }}"
-        data-venue="{{ strtolower($event->venue) }}"
-        data-status="{{ $event->status }}"
-    >
+                        <tr
+                            data-event-row
+                            data-name="{{ strtolower($event->name) }}"
+                            data-category="{{ strtolower($event->category) }}"
+                            data-location="{{ strtolower($event->location) }}"
+                            data-venue="{{ strtolower($event->venue) }}"
+                            data-status="{{ $event->status }}"
+                            data-approval="{{ $event->approval_status }}"
+                        >
 
-        <td>
-            <strong>
-                {{ $event->name }}
-            </strong>
-        </td>
+                            <!-- EVENT -->
+                            <td>
+                                <strong>
+                                    {{ $event->name }}
+                                </strong>
+                            </td>
 
-        <td>
-            {{ $event->category }}
-        </td>
+                            <!-- CATEGORY -->
+                            <td>
+                                {{ $event->category }}
+                            </td>
 
-        <td>
-            {{ $event->location }}
-        </td>
+                            <!-- LOCATION -->
+                            <td>
+                                {{ $event->location }}
+                            </td>
 
-        <td>
-            {{ $event->venue }}
-        </td>
+                            <!-- VENUE -->
+                            <td>
+                                {{ $event->venue }}
+                            </td>
 
-        <td>
-            {{ $event->event_date->format('d M Y') }}
-        </td>
+                            <!-- DATE -->
+                            <td>
+                                {{ $event->event_date->format('d M Y') }}
+                            </td>
 
-        <td>
-            -
-        </td>
+                            <!-- PRICE -->
+                            <td>
+                                -
+                            </td>
 
-        <td>
-            <span class="status-pill
-                @if($event->status === 'on_going')
-                    green
-                @elseif($event->status === 'coming_soon')
-                    orange
-                @else
-                    purple
-                @endif
-            ">
-                {{ strtoupper(str_replace('_', ' ', $event->status)) }}
-            </span>
-        </td>
+                            <!-- EVENT STATUS -->
+                            <td>
 
-        <td>
-            <div class="action-buttons">
+                                <span
+                                    class="status-pill
+                                    @if($event->status === 'on_going')
+                                        green
+                                    @elseif($event->status === 'coming_soon')
+                                        orange
+                                    @else
+                                        purple
+                                    @endif
+                                "
+                                >
+                                    {{ strtoupper(str_replace('_', ' ', $event->status)) }}
+                                </span>
 
-                <button
-                    type="button"
-                    onclick="openEditEventForm(
-                        {{ $event->id }},
-                        {{ Js::from($event->name) }},
-                        {{ Js::from($event->category) }},
-                        {{ Js::from($event->location) }},
-                        {{ Js::from($event->venue) }},
-                        {{ Js::from($event->event_date->format('Y-m-d')) }},
-                        {{ Js::from($event->status) }},
-                        {{ Js::from($event->description) }}
-                    )"
-                >
-                    <i class="fa-solid fa-pen"></i>
-                </button>
+                            </td>
 
-                <form
-                    method="POST"
-                    action="{{ route('admin.events.destroy', $event->id) }}"
-                    onsubmit="return confirm('Yakin ingin menghapus event ini?')"
-                >
-                    @csrf
-                    @method('DELETE')
+                            <!-- APPROVAL STATUS -->
+                            <td>
 
-                    <button type="submit">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </form>
+                                @if($event->approval_status === 'pending')
 
-            </div>
-        </td>
+                                    <span class="status-pill orange">
+                                        PENDING
+                                    </span>
 
-    </tr>
+                                @elseif($event->approval_status === 'approved')
 
-@empty
+                                    <span class="status-pill green">
+                                        APPROVED
+                                    </span>
 
-        <tr>
-            <td colspan="8" style="text-align: center;">
-                Belum ada event.
-            </td>
-        </tr>
+                                @else
 
-    @endforelse
+                                    <span class="status-pill purple">
+                                        REJECTED
+                                    </span>
 
-</tbody>
+                                @endif
+
+                            </td>
+
+                            <!-- ACTION -->
+                            <td>
+
+                                <div class="action-buttons">
+
+                                    @if($event->approval_status === 'pending')
+
+                                        <!-- APPROVE -->
+                                        <form
+                                            method="POST"
+                                            action="{{ route('admin.events.approve', $event->id) }}"
+                                            onsubmit="return confirm('Approve event ini?')"
+                                        >
+                                            @csrf
+
+                                            <button
+                                                type="submit"
+                                                title="Approve Event"
+                                            >
+                                                <i class="fa-solid fa-check"></i>
+                                            </button>
+
+                                        </form>
+
+
+                                        <!-- REJECT -->
+                                        <button
+                                            type="button"
+                                            title="Reject Event"
+                                            onclick="openRejectEventForm(
+                                                {{ $event->id }},
+                                                {{ Js::from($event->name) }}
+                                            )"
+                                        >
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+
+                                    @endif
+
+
+                                    <!-- EDIT -->
+                                    <button
+                                        type="button"
+                                        title="Edit Event"
+                                        onclick="openEditEventForm(
+                                            {{ $event->id }},
+                                            {{ Js::from($event->name) }},
+                                            {{ Js::from($event->category) }},
+                                            {{ Js::from($event->location) }},
+                                            {{ Js::from($event->venue) }},
+                                            {{ Js::from($event->event_date->format('Y-m-d')) }},
+                                            {{ Js::from($event->status) }},
+                                            {{ Js::from($event->description) }}
+                                        )"
+                                    >
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+
+
+                                    <!-- DELETE -->
+                                    <form
+                                        method="POST"
+                                        action="{{ route('admin.events.destroy', $event->id) }}"
+                                        onsubmit="return confirm('Yakin ingin menghapus event ini?')"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            title="Hapus Event"
+                                        >
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan="9" style="text-align: center;">
+                                Belum ada event.
+                            </td>
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
 
             </table>
 
@@ -791,6 +885,99 @@
     </div>
 
 </section>
+
+
+<!-- TICKET MANAGEMENT -->
+<section
+    class="admin-section"
+    id="tickets"
+>
+
+    <div class="section-top">
+
+        <div>
+            <span class="topbar-label">
+                TRANSACTION
+            </span>
+
+            <h2>
+                Ticket Management
+            </h2>
+
+            <p>
+                Pantau seluruh tiket dari event TIXORA.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>TICKET</th>
+                        <th>EVENT</th>
+                        <th>PRICE</th>
+                        <th>QUOTA</th>
+                        <th>SOLD</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @forelse ($tickets as $ticket)
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ $ticket->name }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ $ticket->event->name }}
+                            </td>
+
+                            <td>
+                                Rp{{ number_format($ticket->price, 0, ',', '.') }}
+                            </td>
+
+                            <td>
+                                {{ $ticket->quota }}
+                            </td>
+
+                            <td>
+                                {{ $ticket->sold }}
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan="5" style="text-align: center;">
+                                Belum ada ticket.
+                            </td>
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
 <!-- EVENT FORM MODAL -->
 <!-- EDIT EVENT MODAL -->
 <div
@@ -806,6 +993,7 @@
     <div class="admin-modal-box">
 
         <button
+            type="button"
             class="modal-close"
             onclick="closeAdminModal('editEventModal')"
         >
@@ -833,6 +1021,7 @@
             id="editEventForm"
             method="POST"
         >
+
             @csrf
             @method('PUT')
 
@@ -925,9 +1114,17 @@
                         name="status"
                         required
                     >
-                        <option value="coming_soon">Coming Soon</option>
-                        <option value="on_going">On Going</option>
-                        <option value="past_event">Past Event</option>
+                        <option value="coming_soon">
+                            Coming Soon
+                        </option>
+
+                        <option value="on_going">
+                            On Going
+                        </option>
+
+                        <option value="past_event">
+                            Past Event
+                        </option>
                     </select>
 
                 </div>
@@ -967,8 +1164,90 @@
         </form>
 
     </div>
-
 </div>
+
+
+<!-- REJECT EVENT MODAL -->
+<div
+    class="admin-modal"
+    id="rejectEventModal"
+>
+
+    <div
+        class="admin-modal-overlay"
+        onclick="closeAdminModal('rejectEventModal')"
+    ></div>
+
+    <div class="admin-modal-box">
+
+        <button
+            type="button"
+            class="modal-close"
+            onclick="closeAdminModal('rejectEventModal')"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-header">
+
+            <span>
+                EVENT APPROVAL
+            </span>
+
+            <h2>
+                Tolak Event
+            </h2>
+
+            <p id="rejectEventName">
+                Berikan alasan penolakan event.
+            </p>
+
+        </div>
+
+        <form
+            class="admin-form"
+            id="rejectEventForm"
+            method="POST"
+        >
+
+            @csrf
+
+            <label>
+                Alasan Penolakan
+            </label>
+
+            <textarea
+                name="rejection_reason"
+                rows="5"
+                placeholder="Masukkan alasan penolakan event..."
+                required
+            ></textarea>
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="closeAdminModal('rejectEventModal')"
+                >
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                    Tolak Event
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
 <!-- ADD EVENT MODAL -->
 <div
     class="admin-modal"

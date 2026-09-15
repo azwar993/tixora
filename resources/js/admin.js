@@ -187,6 +187,61 @@ function openEditEventForm(
     document.getElementById('editEventModal').classList.add('active');
 }
 
+/* =========================================================
+   REJECT EVENT MODAL
+========================================================= */
+
+function openRejectEventForm(eventId, eventName) {
+
+    const modal =
+        document.getElementById(
+            'rejectEventModal'
+        );
+
+    const form =
+        document.getElementById(
+            'rejectEventForm'
+        );
+
+    const eventNameText =
+        document.getElementById(
+            'rejectEventName'
+        );
+
+    if (!modal || !form) {
+
+        console.error(
+            'Modal reject event tidak ditemukan.'
+        );
+
+        return;
+    }
+
+    form.action =
+        `/admin/events/${eventId}/reject`;
+
+    if (eventNameText) {
+
+        eventNameText.textContent =
+            `Berikan alasan penolakan untuk event "${eventName}".`;
+
+    }
+
+    const textarea =
+        form.querySelector(
+            'textarea[name="rejection_reason"]'
+        );
+
+    if (textarea) {
+
+        textarea.value = '';
+
+    }
+
+    modal.classList.add('active');
+
+    document.body.style.overflow = 'hidden';
+}
 
 /* =========================================================
    ADD EVENT MODAL
@@ -364,6 +419,9 @@ function filterAdminEvents() {
     const statusFilter =
         document.getElementById('eventStatusFilter');
 
+    const approvalFilter =
+        document.getElementById('eventApprovalFilter');
+
     const rows =
         document.querySelectorAll(
             '#eventTable tbody tr[data-event-row]'
@@ -384,22 +442,36 @@ function filterAdminEvents() {
             ? statusFilter.value
             : '';
 
+    const approval =
+        approvalFilter
+            ? approvalFilter.value
+            : '';
+
     rows.forEach(row => {
 
         const eventName =
-            row.dataset.name.toLowerCase();
+            row.dataset.name?.toLowerCase() || '';
 
         const eventCategory =
-            row.dataset.category.toLowerCase();
+            row.dataset.category?.toLowerCase() || '';
+
+        const eventLocation =
+            row.dataset.location?.toLowerCase() || '';
+
+        const eventVenue =
+            row.dataset.venue?.toLowerCase() || '';
 
         const eventStatus =
-            row.dataset.status;
+            row.dataset.status || '';
+
+        const eventApproval =
+            row.dataset.approval || '';
 
         const matchesSearch =
             eventName.includes(keyword) ||
             eventCategory.includes(keyword) ||
-            row.dataset.location.toLowerCase().includes(keyword) ||
-            row.dataset.venue.toLowerCase().includes(keyword);
+            eventLocation.includes(keyword) ||
+            eventVenue.includes(keyword);
 
         const matchesCategory =
             !category ||
@@ -409,10 +481,15 @@ function filterAdminEvents() {
             !status ||
             eventStatus === status;
 
+        const matchesApproval =
+            !approval ||
+            eventApproval === approval;
+
         row.style.display =
             matchesSearch &&
             matchesCategory &&
-            matchesStatus
+            matchesStatus &&
+            matchesApproval
                 ? ''
                 : 'none';
     });
@@ -800,6 +877,7 @@ window.addEventListener(
 window.closeAdminModal = closeAdminModal;
 window.saveEvent = saveEvent;
 window.openEditEventForm = openEditEventForm;
+window.openRejectEventForm = openRejectEventForm;
 window.openEventForm = openEventForm;
 window.showSection = showSection;
 window.toggleSidebar = toggleSidebar;
@@ -813,18 +891,23 @@ document.addEventListener(
 
         showSection('dashboard');
 
-        const searchInput =
-            document.getElementById('eventSearch');
+       const searchInput =
+    document.getElementById('eventSearch');
 
-        const categoryFilter =
-            document.getElementById(
-                'eventCategoryFilter'
-            );
+const categoryFilter =
+    document.getElementById(
+        'eventCategoryFilter'
+    );
 
-        const statusFilter =
-            document.getElementById(
-                'eventStatusFilter'
-            );
+const statusFilter =
+    document.getElementById(
+        'eventStatusFilter'
+    );
+
+const approvalFilter =
+    document.getElementById(
+        'eventApprovalFilter'
+    );
 
         /* SEARCH SAAT MENGETIK */
         searchInput?.addEventListener(
@@ -860,6 +943,14 @@ document.addEventListener(
 
         /* FILTER STATUS */
         statusFilter?.addEventListener(
+            'change',
+            function () {
+                filterAdminEvents();
+            }
+        );
+        
+        /* FILTER APPROVAL */
+        approvalFilter?.addEventListener(
             'change',
             function () {
                 filterAdminEvents();

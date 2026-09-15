@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,17 +18,29 @@ Route::get('/admin/dashboard', [EventController::class, 'index'])
     ->middleware(['auth', 'admin'])
     ->name('admin.dashboard');
 
+Route::get('/admin/dashboard', [EventController::class, 'index'])
+    ->middleware(['auth','admin'])
+    ->name('admin.dashboard');
+
 Route::post('/admin/events', [EventController::class, 'store'])
-    ->middleware(['auth', 'admin'])
+    ->middleware(['auth','admin'])
     ->name('admin.events.store');
 
 Route::put('/admin/events/{event}', [EventController::class, 'update'])
-    ->middleware(['auth', 'admin'])
+    ->middleware(['auth','admin'])
     ->name('admin.events.update');
 
 Route::delete('/admin/events/{event}', [EventController::class, 'destroy'])
-    ->middleware(['auth', 'admin'])
+    ->middleware(['auth','admin'])
     ->name('admin.events.destroy');
+
+Route::post('/admin/events/{event}/approve', [EventController::class, 'approve'])
+    ->middleware(['auth','admin'])
+    ->name('admin.events.approve');
+
+Route::post('/admin/events/{event}/reject', [EventController::class, 'reject'])
+    ->middleware(['auth','admin'])
+    ->name('admin.events.reject');
 
 /*
 |--------------------------------------------------------------------------
