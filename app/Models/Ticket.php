@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Event;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,15 +15,34 @@ class Ticket extends Model
         'price',
         'quota',
         'sold',
+        'reserved',
         'description',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'quota' => 'integer',
+        'sold' => 'integer',
+        'reserved' => 'integer',
     ];
 
     public function event()
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function ticketInstances()
+    {
+        return $this->hasMany(TicketInstance::class);
+    }
+
+    public function sections()
+    {
+        return $this->hasMany(EventSection::class);
     }
 }

@@ -157,6 +157,56 @@ function closeSidebar() {
 
 }
 
+function toggleNotifications() {
+    const button = document.querySelector('.notification-button');
+    const panel = document.getElementById('notificationPanel');
+
+    if (!button || !panel) {
+        return;
+    }
+
+    const isOpen = !panel.hidden;
+
+    panel.hidden = isOpen;
+    button.setAttribute('aria-expanded', String(!isOpen));
+}
+
+function closeNotifications() {
+    const button = document.querySelector('.notification-button');
+    const panel = document.getElementById('notificationPanel');
+
+    if (!button || !panel) {
+        return;
+    }
+
+    panel.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+}
+
+window.toggleNotifications = toggleNotifications;
+
+document.addEventListener('DOMContentLoaded', function () {
+    const sectionId = window.location.hash.replace('#', '');
+
+    if (sectionId && document.getElementById(sectionId)) {
+        showSection(sectionId);
+    }
+
+    document.addEventListener('click', function (event) {
+        const notificationMenu = document.querySelector('.notification-menu');
+
+        if (notificationMenu && !notificationMenu.contains(event.target)) {
+            closeNotifications();
+        }
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeNotifications();
+        }
+    });
+});
+
 
 
 /* =========================================================
@@ -495,6 +545,156 @@ function filterAdminEvents() {
     });
 }
 
+/* =========================================================
+   CATEGORY SEARCH & FILTER
+========================================================= */
+
+function filterAdminCategories() {
+
+    const searchInput =
+        document.getElementById('categorySearch');
+
+    const statusFilter =
+        document.getElementById('categoryStatusFilter');
+
+    const rows =
+        document.querySelectorAll(
+            '#categoryTable tbody tr[data-category-row]'
+        );
+
+    const keyword =
+        searchInput
+            ? searchInput.value.toLowerCase().trim()
+            : '';
+
+    const status =
+        statusFilter
+            ? statusFilter.value.toLowerCase()
+            : '';
+
+    rows.forEach(row => {
+
+        const categoryName =
+            row.dataset.name?.toLowerCase() || '';
+
+        const categoryDescription =
+            row.dataset.description?.toLowerCase() || '';
+
+        const categoryStatus =
+            row.dataset.status?.toLowerCase() || '';
+
+        const matchesSearch =
+            categoryName.includes(keyword) ||
+            categoryDescription.includes(keyword);
+
+        const matchesStatus =
+            !status ||
+            categoryStatus === status;
+
+        row.style.display =
+            matchesSearch && matchesStatus
+                ? ''
+                : 'none';
+    });
+}
+
+/* =========================================================
+   TICKET SEARCH & FILTER
+========================================================= */
+
+function filterAdminTickets() {
+
+    const searchInput =
+        document.getElementById('ticketSearch');
+
+    const eventFilter =
+        document.getElementById('ticketEventFilter');
+
+    const statusFilter =
+        document.getElementById('ticketStatusFilter');
+
+    const rows =
+        document.querySelectorAll(
+            '#ticketTable tbody tr[data-ticket-row]'
+        );
+
+    const keyword =
+        searchInput
+            ? searchInput.value.toLowerCase().trim()
+            : '';
+
+    const selectedEvent =
+        eventFilter
+            ? eventFilter.value.toLowerCase()
+            : '';
+
+    const selectedStatus =
+        statusFilter
+            ? statusFilter.value.toLowerCase()
+            : '';
+
+    rows.forEach(row => {
+
+        const ticketName =
+            row.dataset.ticketName || '';
+
+        const eventName =
+            row.dataset.eventName || '';
+
+        const ticketStatus =
+            row.dataset.status || '';
+
+        const matchesSearch =
+            ticketName.includes(keyword) ||
+            eventName.includes(keyword);
+
+        const matchesEvent =
+            !selectedEvent ||
+            eventName === selectedEvent;
+
+        const matchesStatus =
+            !selectedStatus ||
+            ticketStatus === selectedStatus;
+
+        row.style.display =
+            matchesSearch &&
+            matchesEvent &&
+            matchesStatus
+                ? ''
+                : 'none';
+    });
+}
+
+function openTicketForm() {
+    const modal = document.getElementById('ticketFormModal');
+
+    if (!modal) {
+        console.error('Modal ticketFormModal tidak ditemukan.');
+        return;
+    }
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function openEditTicketForm(id, eventId, name, price, quota, description) {
+    const modal = document.getElementById('editTicketModal');
+    const form = document.getElementById('editTicketForm');
+
+    if (!modal || !form) {
+        return;
+    }
+
+    document.getElementById('edit_ticket_event_id').value = eventId;
+    document.getElementById('edit_ticket_name').value = name;
+    document.getElementById('edit_ticket_price').value = price;
+    document.getElementById('edit_ticket_quota').value = quota;
+    document.getElementById('edit_ticket_description').value = description ?? '';
+    form.action = `/admin/tickets/${id}`;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
 
 /* =========================================================
    ADD CATEGORY
@@ -514,6 +714,25 @@ function openCategoryForm() {
         console.error('Modal categoryFormModal tidak ditemukan.');
         return;
     }
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function openEditCategoryForm(id, name, description, status) {
+    const modal = document.getElementById('editCategoryModal');
+    const form = document.getElementById('editCategoryForm');
+
+    if (!modal || !form) {
+        console.error('Modal edit category tidak ditemukan.');
+        return;
+    }
+
+    document.getElementById('edit_category_name').value = name;
+    document.getElementById('edit_category_description').value = description ?? '';
+    document.getElementById('edit_category_status').value = status;
+
+    form.action = `/admin/categories/${id}`;
 
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -892,6 +1111,9 @@ window.openEditEventForm = openEditEventForm;
 window.openRejectEventForm = openRejectEventForm;
 window.openEventForm = openEventForm;
 window.openCategoryForm = openCategoryForm;
+window.openEditCategoryForm = openEditCategoryForm;
+window.openTicketForm = openTicketForm;
+window.openEditTicketForm = openEditTicketForm;
 window.showSection = showSection;
 window.toggleSidebar = toggleSidebar;
 /* =========================================================
@@ -902,27 +1124,63 @@ document.addEventListener(
     'DOMContentLoaded',
     function () {
 
-        showSection('dashboard');
+        document
+            .getElementById('openTicketFormButton')
+            ?.addEventListener('click', openTicketForm);
 
-       const searchInput =
-    document.getElementById('eventSearch');
 
-const categoryFilter =
-    document.getElementById(
-        'eventCategoryFilter'
-    );
 
-const statusFilter =
-    document.getElementById(
-        'eventStatusFilter'
-    );
+        /* =====================================================
+           EVENT
+        ===================================================== */
 
-const approvalFilter =
-    document.getElementById(
-        'eventApprovalFilter'
-    );
+        const searchInput =
+            document.getElementById('eventSearch');
 
-        /* SEARCH SAAT MENGETIK */
+        const categoryFilter =
+            document.getElementById(
+                'eventCategoryFilter'
+            );
+
+        const statusFilter =
+            document.getElementById(
+                'eventStatusFilter'
+            );
+
+        const approvalFilter =
+            document.getElementById(
+                'eventApprovalFilter'
+            );
+
+
+        /* =====================================================
+           CATEGORY
+        ===================================================== */
+
+        const categorySearch =
+            document.getElementById(
+                'categorySearch'
+            );
+
+        const categoryStatusFilter =
+            document.getElementById(
+                'categoryStatusFilter'
+            );
+
+        const ticketSearch =
+            document.getElementById('ticketSearch');
+
+        const ticketEventFilter =
+            document.getElementById('ticketEventFilter');
+
+        const ticketStatusFilter =
+            document.getElementById('ticketStatusFilter');
+
+
+        /* =====================================================
+           EVENT SEARCH
+        ===================================================== */
+
         searchInput?.addEventListener(
             'input',
             function () {
@@ -930,7 +1188,9 @@ const approvalFilter =
             }
         );
 
-        /* SEARCH SAAT TEKAN ENTER */
+
+        /* SEARCH EVENT SAAT ENTER */
+
         searchInput?.addEventListener(
             'keydown',
             function (event) {
@@ -946,7 +1206,9 @@ const approvalFilter =
             }
         );
 
-        /* FILTER KATEGORI */
+
+        /* FILTER KATEGORI EVENT */
+
         categoryFilter?.addEventListener(
             'change',
             function () {
@@ -954,20 +1216,61 @@ const approvalFilter =
             }
         );
 
-        /* FILTER STATUS */
+
+        /* FILTER STATUS EVENT */
+
         statusFilter?.addEventListener(
             'change',
             function () {
                 filterAdminEvents();
             }
         );
-        
-        /* FILTER APPROVAL */
+
+
+        /* FILTER APPROVAL EVENT */
+
         approvalFilter?.addEventListener(
             'change',
             function () {
                 filterAdminEvents();
             }
+        );
+
+
+        /* =====================================================
+           CATEGORY SEARCH
+        ===================================================== */
+
+        categorySearch?.addEventListener(
+            'input',
+            function () {
+                filterAdminCategories();
+            }
+        );
+
+
+        /* FILTER STATUS CATEGORY */
+
+        categoryStatusFilter?.addEventListener(
+            'change',
+            function () {
+                filterAdminCategories();
+            }
+        );
+
+        ticketSearch?.addEventListener(
+            'input',
+            filterAdminTickets
+        );
+
+        ticketEventFilter?.addEventListener(
+            'change',
+            filterAdminTickets
+        );
+
+        ticketStatusFilter?.addEventListener(
+            'change',
+            filterAdminTickets
         );
 
     }

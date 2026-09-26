@@ -1,3 +1,215 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* TIXORA public account navigation */
+.tix-app-body { min-width: 320px; min-height: 100vh; margin: 0; background: #f7f7fa; color: #24232b; font-family: "Inter", sans-serif; }
+.tix-app-shell { min-height: 100vh; }
+.tix-nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #ecebf1; background: rgba(255,255,255,.96); backdrop-filter: blur(14px); }
+.tix-nav-inner { display: flex; width: min(1200px, calc(100% - 40px)); min-height: 72px; align-items: center; gap: 28px; margin: 0 auto; }
+.tix-nav-logo { flex: 0 0 auto; color: #18171d; font-size: 23px; font-weight: 800; letter-spacing: -1.3px; text-decoration: none; }
+.tix-nav-logo span { color: #7257ff; }
+.tix-nav-links { display: flex; align-items: center; gap: 25px; }
+.tix-nav-links a, .tix-mobile-navigation a { color: #66636f; font-size: 12px; font-weight: 650; text-decoration: none; }
+.tix-nav-links a:hover, .tix-mobile-navigation a:hover { color: #7257ff; }
+.tix-nav-actions { position: relative; display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.tix-login-link, .tix-register-link { display: inline-flex; min-height: 38px; align-items: center; justify-content: center; padding: 0 13px; border-radius: 9px; font-size: 11px; font-weight: 700; text-decoration: none; }
+.tix-login-link { color: #36343d; }
+.tix-register-link { background: #19181f; color: white; }
+.tix-register-link:hover { background: #7257ff; }
+.tix-account, .tix-mobile-navigation { position: relative; }
+.tix-account > summary, .tix-mobile-navigation > summary { display: flex; min-height: 40px; align-items: center; gap: 8px; padding: 4px 10px 4px 5px; border: 1px solid #e8e7ed; border-radius: 10px; background: white; color: #292730; cursor: pointer; list-style: none; }
+.tix-account > summary::-webkit-details-marker, .tix-mobile-navigation > summary::-webkit-details-marker { display: none; }
+.tix-account-avatar { display: grid; width: 29px; height: 29px; place-items: center; border-radius: 50%; background: #7257ff; color: white; font-size: 11px; }
+.tix-account-name { max-width: 125px; overflow: hidden; font-size: 11px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+.tix-account-chevron { color: #8a8792; font-size: 8px; }
+.tix-account-menu { position: absolute; top: calc(100% + 9px); right: 0; z-index: 80; width: 232px; max-width: calc(100vw - 24px); padding: 8px; border: 1px solid #ebeaf0; border-radius: 12px; background: #fff; box-shadow: 0 16px 42px rgba(29,26,44,.14); }
+.tix-account-identity { display: grid; gap: 3px; padding: 9px; }
+.tix-account-identity strong { overflow: hidden; color: #292730; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.tix-account-identity small { overflow: hidden; color: #918e99; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.tix-account-group-label { padding: 7px 9px 3px; color: #96929e; font-size: 8px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.tix-account-menu > a, .tix-account-menu form button { display: flex; width: 100%; min-height: 34px; align-items: center; gap: 9px; padding: 0 9px; border: 0; border-radius: 7px; background: transparent; color: #514e59; font: inherit; font-size: 10px; font-weight: 600; text-align: left; text-decoration: none; cursor: pointer; }
+.tix-account-menu > a:hover, .tix-account-menu form button:hover { background: #f5f2ff; color: #684de8; }
+.tix-account-menu > a i, .tix-account-menu form button i { width: 14px; color: #8270d6; text-align: center; }
+.tix-account-divider { height: 1px; margin: 6px 2px; background: #efedf3; }
+.tix-account-menu form { margin: 0; }
+.tix-account-menu form button { color: #c14f5d; }
+.tix-account-menu form button i { color: inherit; }
+.tix-mobile-navigation { display: none; }
+.tix-mobile-navigation > summary { width: 39px; justify-content: center; padding: 0; color: #625f6b; }
+.tix-mobile-navigation > div { position: absolute; top: calc(100% + 9px); right: 0; z-index: 75; display: grid; width: 190px; gap: 3px; padding: 8px; border: 1px solid #ebeaf0; border-radius: 11px; background: #fff; box-shadow: 0 16px 42px rgba(29,26,44,.14); }
+.tix-mobile-navigation a { padding: 10px; border-radius: 7px; }
+.tix-app-heading { background: white; border-bottom: 1px solid #ecebf1; }
+.tix-app-heading > div { width: min(1200px, calc(100% - 40px)); margin: 0 auto; padding: 20px 0; }
+.tix-app-main { min-width: 0; }
+
+/* Buyer dashboard */
+.buyer-page { padding: 32px 20px 56px; }
+.buyer-page-inner { display: grid; width: min(1120px, 100%); gap: 17px; margin: 0 auto; }
+.buyer-welcome { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 25px 27px; border: 1px solid #ebe9f2; border-radius: 15px; background: linear-gradient(115deg,#fff,#fbfaff); }
+.buyer-eyebrow { color: #8070d8; font-size: 8px; font-weight: 800; letter-spacing: 1.35px; }
+.buyer-welcome h1 { margin: 6px 0 0; color: #26242d; font-size: clamp(22px,3vw,29px); letter-spacing: -1px; }
+.buyer-welcome p, .buyer-creator-callout p { margin: 6px 0 0; color: #85828d; font-size: 11px; }
+.buyer-discover-link, .buyer-creator-callout a, .buyer-empty-state a { display: inline-flex; min-height: 38px; align-items: center; gap: 8px; padding: 0 13px; border-radius: 9px; background: #7257ff; color: #fff; font-size: 10px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.buyer-stats { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 13px; }
+.buyer-stat-card, .buyer-panel { min-width: 0; border: 1px solid #ebebef; border-radius: 13px; background: #fff; box-shadow: 0 4px 16px rgba(34,32,48,.025); }
+.buyer-stat-card { display: flex; align-items: center; gap: 12px; padding: 16px; }
+.buyer-stat-icon, .buyer-ticket-icon, .buyer-order-icon { display: grid; width: 38px; height: 38px; flex: 0 0 38px; place-items: center; border-radius: 11px; background: #f0edff; color: #7257ff; }
+.buyer-stat-icon.is-blue { background: #eaf5fd; color: #368ec7; }
+.buyer-stat-icon.is-green { background: #eaf7ed; color: #32964b; }
+.buyer-stat-card small, .buyer-stat-card strong { display: block; }
+.buyer-stat-card small { color: #898691; font-size: 8px; font-weight: 800; letter-spacing: .4px; }
+.buyer-stat-card strong { margin-top: 3px; color: #25232b; font-size: 22px; line-height: 1.2; }
+.buyer-panel { padding: 19px; }
+.buyer-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.buyer-panel-heading h2 { margin: 4px 0 0; color: #27252e; font-size: 16px; letter-spacing: -.35px; }
+.buyer-panel-count { padding: 5px 8px; border-radius: 7px; background: #f3f2f7; color: #716e79; font-size: 8px; font-weight: 700; white-space: nowrap; }
+.buyer-ticket-list, .buyer-order-list { display: grid; }
+.buyer-ticket-card, .buyer-order-row { display: flex; min-width: 0; align-items: center; gap: 12px; padding: 12px 2px; border-top: 1px solid #f0eff3; }
+.buyer-ticket-icon, .buyer-order-icon { width: 34px; height: 34px; flex-basis: 34px; border-radius: 9px; }
+.buyer-ticket-copy, .buyer-order-copy { min-width: 0; flex: 1; }
+.buyer-ticket-copy h3 { margin: 0; overflow: hidden; color: #302e37; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.buyer-ticket-copy p, .buyer-ticket-copy small, .buyer-order-copy small, .buyer-order-total small { display: block; margin: 4px 0 0; overflow: hidden; color: #87848f; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.buyer-ticket-copy small i { margin-right: 4px; color: #8573dc; }
+.buyer-ticket-status { padding: 5px 7px; border-radius: 6px; background: #eaf7ed; color: #2d9146; font-size: 7px; font-weight: 800; }
+.buyer-empty-state { display: grid; min-height: 210px; align-content: center; justify-items: center; padding: 20px; text-align: center; }
+.buyer-empty-state > span { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 14px; background: #f0edff; color: #7257ff; }
+.buyer-empty-state h3 { margin: 11px 0 0; color: #302e37; font-size: 13px; }
+.buyer-empty-state p { max-width: 380px; margin: 5px 0 12px; color: #898691; font-size: 10px; }
+.buyer-empty-state a { min-height: 33px; background: #f1efff; color: #654ce8; }
+.buyer-inline-empty { padding: 18px 4px 6px; color: #898691; font-size: 10px; }
+.buyer-order-row { gap: 11px; }
+.buyer-order-copy strong, .buyer-order-total strong { display: block; overflow: hidden; color: #302e37; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.buyer-order-total { flex: 0 0 auto; text-align: right; }
+.buyer-order-total small { color: #898691; }
+.buyer-creator-callout { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 20px; border: 1px solid #e9e5fb; border-radius: 13px; background: #fbfaff; }
+.buyer-creator-callout h2 { margin: 4px 0 0; color: #302e37; font-size: 13px; }
+.buyer-creator-callout a { flex: 0 0 auto; }
+.buyer-creator-callout form { flex: 0 0 auto; margin: 0; }
+.buyer-creator-callout button { display: inline-flex; min-height: 38px; align-items: center; justify-content: center; padding: 0 13px; border: 0; border-radius: 9px; background: #7257ff; color: white; font-size: 10px; font-weight: 700; cursor: pointer; }
+.buyer-pagination { margin-top: 14px; }
+.buyer-pagination nav { display: flex; justify-content: center; }
+
+/* Profile page */
+.tix-profile-page { padding: 34px 20px 58px; }
+.tix-profile-inner { display: grid; width: min(900px, 100%); gap: 16px; margin: 0 auto; }
+.tix-profile-heading { padding: 4px 2px 8px; }
+.tix-profile-heading > span { color: #8070d8; font-size: 9px; font-weight: 800; letter-spacing: 1.4px; }
+.tix-profile-heading h1 { margin: 5px 0 0; color: #26242d; font-size: 27px; letter-spacing: -.8px; }
+.tix-profile-heading p, .tix-profile-card-heading p { margin: 5px 0 0; color: #85828d; font-size: 11px; }
+.tix-profile-card { min-width: 0; padding: 22px; border: 1px solid #ebebef; border-radius: 14px; background: #fff; box-shadow: 0 4px 16px rgba(34,32,48,.025); }
+.tix-profile-card-heading { margin-bottom: 18px; }
+.tix-profile-card-heading h2 { margin: 0; color: #302e37; font-size: 15px; }
+.tix-profile-card section header { margin: 0; }
+.tix-profile-card section header h2 { margin: 0; color: #302e37; font-size: 12px; font-weight: 700; }
+.tix-profile-card section header p { margin: 4px 0 0; color: #85828d; font-size: 10px; }
+.tix-profile-card form { margin-top: 16px; }
+.tix-profile-card label { color: #514e59; font-size: 10px; font-weight: 650; }
+.tix-profile-card input:not([type="checkbox"]):not([type="hidden"]) { width: 100%; min-height: 40px; border: 1px solid #e5e3eb; border-radius: 8px; background: #fff; padding: 8px 11px; color: #302e37; font: inherit; font-size: 12px; box-shadow: none; }
+.tix-profile-card input:focus { border-color: #9c8cff; outline: 2px solid rgba(114,87,255,.13); }
+.tix-profile-card button { border-radius: 8px; font-size: 10px; }
+.tix-profile-danger { border-color: #f0e5e7; }
+.tix-profile-danger .tix-profile-card-heading h2 { color: #a94956; }
+
+/* TIXORA account center */
+.account-center { display: grid; min-height: calc(100vh - 72px); grid-template-columns: 245px minmax(0, 1fr); }
+.account-sidebar { position: sticky; top: 72px; display: flex; height: calc(100vh - 72px); min-height: 560px; flex-direction: column; padding: 25px 15px 16px; background: #222129; color: #fff; }
+.account-sidebar-brand { display: block; padding: 0 12px 24px; color: #fff; font-size: 22px; font-weight: 850; letter-spacing: -1.2px; text-decoration: none; }
+.account-sidebar-brand > span { color: #a996ff; }
+.account-sidebar-brand small { display: block; margin-top: 4px; color: #918e9d; font-size: 7px; font-weight: 750; letter-spacing: 1.45px; }
+.account-sidebar-nav { display: grid; align-content: start; gap: 3px; }
+.account-sidebar-label { padding: 12px 12px 5px; color: #8d8999; font-size: 8px; font-weight: 800; letter-spacing: 1.1px; }
+.account-sidebar-label-spaced { margin-top: 11px; border-top: 1px solid rgba(255,255,255,.09); padding-top: 17px; }
+.account-sidebar-nav > a, .account-sidebar-link { display: flex; min-width: 0; min-height: 39px; align-items: center; gap: 10px; padding: 0 11px; border-radius: 7px; color: #c5c2ce; font-size: 10px; font-weight: 550; text-decoration: none; transition: background .18s ease, color .18s ease; }
+.account-sidebar-nav > a > i, .account-sidebar-link > i { width: 15px; color: #9894a5; font-size: 11px; text-align: center; }
+.account-sidebar-nav > a:hover { background: rgba(255,255,255,.06); color: #fff; }
+.account-sidebar-nav > a:hover > i { color: #b3a6ff; }
+.account-sidebar-nav > a.is-active { background: #7257ff; color: #fff; font-weight: 700; }
+.account-sidebar-nav > a.is-active > i { color: #fff; }
+.account-sidebar-link.is-disabled { color: #86828f; cursor: not-allowed; }
+.account-sidebar-link.is-disabled small { margin-left: auto; color: #a59faf; font-size: 7px; }
+.account-sidebar-bottom { display: flex; min-width: 0; align-items: center; gap: 10px; margin-top: auto; padding: 14px 7px 3px; border-top: 1px solid rgba(255,255,255,.1); }
+.account-sidebar-avatar { display: grid; width: 32px; height: 32px; flex: 0 0 32px; place-items: center; border-radius: 50%; background: #393641; color: #c5baff; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+.account-sidebar-bottom > span:last-child { display: grid; min-width: 0; gap: 3px; }
+.account-sidebar-bottom strong { overflow: hidden; color: #f5f4f7; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.account-sidebar-bottom small { color: #9c98a6; font-size: 8px; }
+.account-content { min-width: 0; padding: 34px 44px 52px; }
+.account-content-heading { width: min(1060px, 100%); margin: 0 auto 17px; }
+.account-content-heading > div > span { color: #8070d8; font-size: 8px; font-weight: 800; letter-spacing: 1.35px; }
+.account-content-heading h1 { margin: 5px 0 0; color: #26242d; font-size: clamp(23px, 2.5vw, 29px); letter-spacing: -.9px; }
+.account-content-heading p { margin: 5px 0 0; color: #85828d; font-size: 11px; }
+.account-content-surface { width: min(1060px, 100%); margin: 0 auto; border: 1px solid #e9e8ee; border-radius: 11px; background: #fff; }
+.account-form-section { padding: 22px 26px 23px; }
+.account-form-section + .account-form-section { border-top: 1px solid #eeedf1; }
+.account-section-heading { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px; }
+.account-section-icon { display: grid; width: 34px; height: 34px; flex: 0 0 34px; place-items: center; border-radius: 8px; background: #f2efff; color: #7257ff; font-size: 12px; }
+.account-section-heading h2 { margin: 0; color: #302e37; font-size: 13px; font-weight: 700; }
+.account-section-heading p { margin: 4px 0 0; color: #85828d; font-size: 10px; }
+.account-form-section > section > header { display: none; }
+.account-form-section > section > form:not(#send-verification) { display: grid; width: min(820px, 100%); gap: 0; margin: 0; }
+.account-form-section > section > form:not(#send-verification) > div:not(.account-form-actions) { display: grid; gap: 7px; margin: 0; padding: 12px 0; border-bottom: 1px solid #eeedf1; }
+.account-form-section label { color: #55525e; font-size: 10px; font-weight: 650; }
+.account-form-section input:not([type="checkbox"]):not([type="hidden"]) { width: 100%; min-height: 39px; border: 1px solid #e3e1e8; border-radius: 5px; background: #fff; padding: 8px 10px; color: #302e37; font: inherit; font-size: 11px; box-shadow: none; }
+.account-form-section input:focus { border-color: #927fff; outline: 2px solid rgba(114,87,255,.12); }
+.account-form-section [role="alert"], .account-form-section p.text-red-600 { color: #ad505b; font-size: 9px; }
+.account-form-actions { display: flex; min-height: 54px; align-items: end; justify-content: flex-end; gap: 12px; padding-top: 16px; }
+.account-save-button { min-height: 38px; padding: 0 16px; border: 0; border-radius: 6px; background: #7257ff; color: #fff; font: inherit; font-size: 10px; font-weight: 700; cursor: pointer; }
+.account-save-button:hover { background: #6148e8; }
+.account-save-button:focus-visible, .account-danger-section button:focus-visible { outline: 3px solid rgba(114,87,255,.25); outline-offset: 2px; }
+.account-danger-section .account-section-icon { background: #fbf1f1; color: #a75b63; }
+.account-danger-section .account-section-heading h2 { color: #67484b; }
+.account-danger-section > section > button { min-height: 36px; padding: 0 12px; border: 1px solid #ead7d9; border-radius: 6px; background: #fff; color: #9d5059; font-size: 10px; font-weight: 650; }
+.account-danger-section > section > button:hover { background: #fbf3f3; }
+.account-danger-section > section > .space-y-6 { margin: 0; }
+
+@media (max-width: 760px) {
+    .tix-nav-inner { width: calc(100% - 26px); min-height: 64px; gap: 12px; }
+    .tix-nav-links { display: none; }
+    .tix-mobile-navigation { display: block; }
+    .tix-account-name { max-width: 94px; }
+    .buyer-page { padding: 19px 13px 36px; }
+    .buyer-welcome { align-items: flex-start; padding: 19px; }
+    .buyer-discover-link { min-height: 34px; padding: 0 9px; font-size: 9px; }
+    .buyer-stats { gap: 8px; }
+    .buyer-stat-card { align-items: flex-start; flex-direction: column; gap: 8px; padding: 12px 10px; }
+    .buyer-stat-icon { width: 32px; height: 32px; flex-basis: 32px; }
+    .buyer-stat-card small { font-size: 7px; }
+    .buyer-stat-card strong { font-size: 18px; }
+    .buyer-panel { padding: 14px; }
+    .tix-profile-page { padding: 20px 13px 38px; }
+    .tix-profile-card { padding: 17px; }
+    .account-center { grid-template-columns: 210px minmax(0, 1fr); }
+    .account-sidebar { padding-right: 10px; padding-left: 10px; }
+    .account-content { padding: 28px 24px 40px; }
+    .account-form-section { padding: 20px 20px 21px; }
+}
+@media (max-width: 480px) {
+    .tix-nav-logo { font-size: 20px; }
+    .tix-nav-actions { gap: 6px; }
+    .tix-account > summary { min-height: 37px; gap: 5px; padding-right: 7px; }
+    .tix-account-name { max-width: 82px; font-size: 10px; }
+    .tix-account-avatar { width: 26px; height: 26px; }
+    .tix-login-link, .tix-register-link { min-height: 35px; padding: 0 9px; font-size: 10px; }
+    .buyer-welcome { flex-direction: column; }
+    .buyer-creator-callout { align-items: flex-start; flex-direction: column; }
+    .buyer-creator-callout a, .buyer-creator-callout form, .buyer-creator-callout button { max-width: 100%; white-space: normal; }
+    .buyer-ticket-card, .buyer-order-row { gap: 8px; }
+    .buyer-order-total strong { font-size: 9px; }
+    .account-center { display: block; }
+    .account-sidebar { position: static; height: auto; min-height: 0; padding: 13px 13px 11px; }
+    .account-sidebar-brand { padding: 0 2px 12px; font-size: 19px; }
+    .account-sidebar-brand small { display: inline-block; margin: 0 0 0 8px; vertical-align: middle; }
+    .account-sidebar-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; }
+    .account-sidebar-label { grid-column: 1 / -1; padding: 9px 5px 3px; }
+    .account-sidebar-label-spaced { margin-top: 4px; padding-top: 10px; }
+    .account-sidebar-nav > a, .account-sidebar-link { min-height: 36px; gap: 7px; padding: 0 7px; font-size: 9px; }
+    .account-sidebar-link.is-disabled small { font-size: 6px; }
+    .account-sidebar-bottom { display: none; }
+    .account-content { padding: 24px 13px 34px; }
+    .account-content-heading { margin-bottom: 17px; }
+    .account-content-surface { border-radius: 8px; }
+    .account-form-section { padding: 18px 14px 20px; }
+    .account-section-heading { gap: 9px; }
+    .account-section-heading p { line-height: 1.5; }
+    .account-save-button { max-width: 100%; }
+}

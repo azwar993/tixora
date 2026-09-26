@@ -344,7 +344,17 @@ section {
     margin: 7px 0;
 }
 
-.profile-dropdown button {
+.account-group-label {
+    padding: 7px 10px 3px;
+    color: #85818f;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.profile-dropdown button,
+.profile-dropdown a {
     width: 100%;
     border: none;
     background: transparent;
@@ -356,9 +366,11 @@ section {
     border-radius: 8px;
     font-size: 11px;
     color: #4a4a51;
+    text-decoration: none;
 }
 
-.profile-dropdown button:hover {
+.profile-dropdown button:hover,
+.profile-dropdown a:hover {
     background: #f6f4ff;
     color: #7257ff;
 }
@@ -1350,7 +1362,8 @@ section {
     padding: 19px 32px 29px;
 }
 
-.auth-switch button {
+.auth-switch button,
+.auth-switch a {
     border: none;
     background: none;
     color: #7257ff;
@@ -2185,7 +2198,8 @@ section {
     padding: 5px 22px 28px;
 }
 
-.profile-menu-list button {
+.profile-menu-list button,
+.profile-menu-list a {
     width: 100%;
     border: none;
     background: white;
@@ -2198,7 +2212,8 @@ section {
     font-size: 10px;
 }
 
-.profile-menu-list button:hover {
+.profile-menu-list button:hover,
+.profile-menu-list a:hover {
     background: #f7f5ff;
     color: #7257ff;
 }
@@ -2599,6 +2614,57 @@ section {
 
 }
 </style>
+<style>
+/* Public home final polish: scoped to the custom homepage header and event carousel. */
+.navbar-container { gap: clamp(14px, 2vw, 25px); }
+.profile-button { max-width: 190px; }
+.profile-button #profileName { max-width: 105px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.profile-dropdown { z-index: 1600; width: 218px; padding: 8px; border-radius: 12px; }
+.profile-dropdown a, .profile-dropdown button { padding: 9px 10px; font-size: 12px; }
+.profile-dropdown form { margin: 0; }
+.dropdown-user { padding: 8px; }
+.dropdown-user small { max-width: 155px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.event-carousel-wrapper { position: relative; margin: 14px 0 0; }
+.event-carousel { padding: 0 1px 2px; overflow: hidden; }
+.event-carousel .swiper-wrapper { align-items: stretch; }
+.event-carousel .swiper-slide { height: auto; display: flex; padding: 0 2px; }
+.event-card--carousel { display: flex; width: 100%; flex-direction: column; border-radius: 14px; }
+.event-card--carousel .event-card-image { height: 196px; flex: 0 0 196px; background: linear-gradient(135deg, #f0edff, #e5e0ff 55%, #f8f7ff); }
+.event-card--carousel .event-card-image img { position: relative; z-index: 1; }
+.event-image-fallback { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 9px; padding: 18px; color: #654ce8; background: radial-gradient(circle at 75% 20%, rgba(255,255,255,.8), transparent 34%), linear-gradient(135deg, #f3f0ff, #e6e0ff 60%, #f9f8ff); text-align: center; }
+.event-image-fallback[hidden] { display: none; }
+.event-image-fallback i { font-size: 27px; }
+.event-image-fallback span { max-width: 230px; font-size: 11px; font-weight: 800; }
+.event-card--carousel .event-card-content { display: flex; flex: 1; flex-direction: column; min-height: 218px; padding: 16px; }
+.event-card--carousel .event-card-category { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.event-card--carousel .event-card-title { display: -webkit-box; min-height: 2.56em; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.event-card-venue { min-height: 2.8em; color: #85858e; font-size: 10px; line-height: 1.4; overflow-wrap: anywhere; }
+.event-card--carousel .event-card-bottom { align-items: end; margin-top: auto; padding-top: 12px; }
+.event-card--carousel .event-card-price { font-size: 14px; }
+.event-card--carousel .detail-event-button { white-space: nowrap; }
+.event-carousel-wrapper > .swiper-pagination { position: static; display: flex; justify-content: center; align-items: center; gap: 3px; min-height: 26px; margin-top: 14px; }
+.event-carousel-wrapper > .swiper-pagination .swiper-pagination-bullet { width: 6px; height: 6px; margin: 0 3px; background: #c8c2dc; opacity: 1; }
+.event-carousel-wrapper > .swiper-pagination .swiper-pagination-bullet-active { width: 17px; border-radius: 99px; background: #7257ff; }
+.event-carousel .swiper-button-prev, .event-carousel .swiper-button-next { top: 42%; width: 36px; height: 36px; margin: 0; border: 1px solid #eceaf4; border-radius: 50%; background: rgba(255,255,255,.96); color: #5540c7; box-shadow: 0 5px 16px rgba(32,24,74,.12); }
+.event-carousel .swiper-button-prev { left: -16px; }
+.event-carousel .swiper-button-next { right: -16px; }
+.event-carousel .swiper-button-prev::after, .event-carousel .swiper-button-next::after { font-size: 12px; font-weight: 800; }
+.categories-section, .events-section, .why-section, .articles-section { padding-top: 72px; padding-bottom: 76px; }
+.section-heading, .center-heading { margin-bottom: 32px; }
+.sub-event-heading { margin-top: 58px; }
+@media (max-width: 1050px) { .event-carousel .swiper-button-prev { left: 5px; } .event-carousel .swiper-button-next { right: 5px; } }
+@media (max-width: 820px) { .navbar-container { gap: 8px; } .nav-actions { gap: 6px; } .profile-dropdown { right: 0; width: min(218px, calc(100vw - 24px)); } }
+@media (max-width: 600px) {
+    .profile-button { min-height: 37px; padding: 0 8px 0 5px; gap: 6px; }
+    .profile-button #profileName { max-width: 82px; }
+    .event-carousel .swiper-button-prev, .event-carousel .swiper-button-next { display: none; }
+    .event-carousel .swiper-slide { padding: 0 1px; }
+    .event-card--carousel .event-card-image { height: 190px; flex-basis: 190px; }
+    .event-card--carousel .event-card-content { min-height: 210px; }
+    .categories-section, .events-section, .why-section, .articles-section { padding-top: 58px; padding-bottom: 62px; }
+    .section-heading, .center-heading { margin-bottom: 26px; }
+}
+</style>
 </head>
 <body>
 
@@ -2611,14 +2677,14 @@ section {
     <div class="container navbar-container">
 
         <!-- LOGO -->
-        <a href="#home" class="logo">
+        <a href="{{ route('home') }}" class="logo">
             TIX<span>ORA</span>
         </a>
 
         <!-- NAVIGATION -->
         <nav class="nav-menu">
 
-            <a href="#home" class="nav-link active">
+            <a href="{{ route('home') }}" class="nav-link active">
                 Home
             </a>
 
@@ -2640,20 +2706,8 @@ section {
         <!-- NAV ACTIONS -->
         <div class="nav-actions">
 
-            <!-- LOCATION -->
-            <button
-                class="location-button"
-                onclick="openLocationModal()"
-            >
-                <i class="fa-solid fa-location-dot"></i>
-                <span id="selectedLocation">
-                    JABODETABEK
-                </span>
-                <i class="fa-solid fa-chevron-down arrow-small"></i>
-            </button>
-
-
             <!-- LOGIN -->
+@guest
 <a
     href="{{ route('login') }}"
     class="login-button"
@@ -2670,6 +2724,7 @@ section {
 >
     Register
 </a>
+@endguest
 
             <!-- <a href="admin.html" class="admin-login-link">
                 Admin
@@ -2677,15 +2732,18 @@ section {
 
 
             <!-- USER PROFILE -->
+            @auth
             <div
                 class="profile-wrapper"
                 id="profileWrapper"
-                style="display: none;"
             >
 
                 <button
                     class="profile-button"
-                    onclick="toggleProfileMenu()"
+                    id="profileButton"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="profileDropdown"
                 >
 
                     <div class="profile-avatar">
@@ -2693,7 +2751,7 @@ section {
                     </div>
 
                     <span id="profileName">
-                        User
+                        {{ auth()->user()->name }}
                     </span>
 
                     <i class="fa-solid fa-chevron-down arrow-small"></i>
@@ -2714,11 +2772,11 @@ section {
 
                         <div>
                             <strong id="dropdownName">
-                                User
+                                {{ auth()->user()->name }}
                             </strong>
 
                             <small id="dropdownEmail">
-                                user@email.com
+                                {{ auth()->user()->email }}
                             </small>
                         </div>
 
@@ -2728,59 +2786,45 @@ section {
                     <div class="dropdown-divider"></div>
 
 
-                    <button onclick="openProfileModal()">
+                    @if (auth()->user()->role === 'admin')
+                        <div class="account-group-label">Admin</div>
+                        <a href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-gauge-high"></i> Admin Dashboard</a>
+                    @else
+                        <div class="account-group-label">Pembeli</div>
+                        <a href="{{ route('dashboard') }}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                        <a href="{{ route('dashboard') }}#tickets"><i class="fa-solid fa-ticket"></i> Tiket Saya</a>
+                        <a href="{{ route('dashboard') }}#orders"><i class="fa-solid fa-receipt"></i> Pesanan Saya</a>
 
-                        <i class="fa-regular fa-user"></i>
+                        @if (auth()->user()->role === 'eo')
+                            <div class="dropdown-divider"></div>
+                            <div class="account-group-label">Event Creator</div>
+                            <a href="{{ route('eo.dashboard') }}"><i class="fa-solid fa-gauge-high"></i> Creator Dashboard</a>
+                            <a href="{{ route('eo.events.index') }}"><i class="fa-regular fa-calendar"></i> Event Saya</a>
+                        @endif
+                    @endif
 
-                        My Profile
-
-                    </button>
-
-
-                    <button onclick="openOrdersModal()">
-
-                        <i class="fa-solid fa-receipt"></i>
-
-                        My Orders
-
-                    </button>
-
-
-                    <button onclick="openTicketsModal()">
-
-                        <i class="fa-solid fa-ticket"></i>
-
-                        My Tickets
-
-                    </button>
-
-
-                    <button onclick="showToast('Menu Favorites akan tersedia setelah database aktif.')">
-
-                        <i class="fa-regular fa-heart"></i>
-
-                        Favorites
-
-                    </button>
+                    <div class="dropdown-divider"></div>
+                    <a href="{{ route('profile.edit') }}"><i class="fa-regular fa-user"></i> Profil</a>
 
 
                     <div class="dropdown-divider"></div>
 
 
-                    <button
-                        class="logout-menu"
-                        onclick="logoutUser()"
-                    >
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="logout-menu">
 
                         <i class="fa-solid fa-right-from-bracket"></i>
 
                         Logout
 
-                    </button>
+                        </button>
+                    </form>
 
                 </div>
 
             </div>
+            @endauth
 
 
             <!-- MOBILE MENU -->
@@ -2805,7 +2849,7 @@ section {
     id="mobileNavigation"
 >
 
-    <a href="#home" onclick="closeMobileMenu()">
+    <a href="{{ route('home') }}" onclick="closeMobileMenu()">
         Home
     </a>
 
@@ -3117,10 +3161,7 @@ section {
 
             <!-- ALL -->
 
-            <button
-                class="category-card"
-                onclick="showAllEvents()"
-            >
+            <a href="#events" class="category-card">
 
                 <div class="category-icon all-icon">
 
@@ -3136,7 +3177,7 @@ section {
                     Lihat semua event
                 </p>
 
-            </button>
+            </a>
 
         </div>
 
@@ -3196,62 +3237,59 @@ section {
 
         <!-- EVENTS -->
 
-        <!-- BARU DITAMBAHKAN: carousel rekomendasi event -->
+        <!-- Event dari database yang sudah disetujui -->
         <div class="event-carousel-wrapper">
             <div class="swiper event-carousel">
                 <div class="swiper-wrapper">
-                    <!-- Slide 1 -->
-                    <div class="swiper-slide px-2">
-                        <article class="event-card event-card--carousel">
-                            <div class="event-card-image">
-                                <img src="{{ asset('images/event-1.jpg') }}" alt="Njonja Ati Soetji">
-                            </div>
-                            <div class="event-card-content">
-                                <p class="event-card-category">Jakarta Selatan</p>
-                                <h3 class="event-card-title">Njonja Ati Soetji</h3>
-                                <p class="event-card-meta">Oleh Regina Art</p>
-                                <div class="event-card-bottom">
-                                    <div>
-                                        <small class="price-label">Mulai dari</small>
-                                        <span class="event-card-price">Rp180.000</span>
+                    @forelse ($events as $event)
+                                <div class="swiper-slide px-2">
+                            <article class="event-card event-card--carousel"
+                                data-event-search="{{ strtolower($event->name . ' ' . $event->category . ' ' . $event->location . ' ' . $event->venue) }}"
+                                data-event-category="{{ strtolower($event->category ?? '') }}"
+                                data-event-location="{{ strtolower($event->location ?? '') }}">
+                                <div class="event-card-image">
+                                    <div class="event-image-fallback" @if ($event->image) hidden @endif aria-hidden="true">
+                                        <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+                                        <span>{{ $event->name }}</span>
                                     </div>
-                                    <button class="detail-event-button">Beli</button>
+                                    @if ($event->image)
+                                        <img src="{{ asset('storage/' . $event->image) }}" alt="" onerror="this.hidden = true; this.previousElementSibling.hidden = false;">
+                                    @endif
                                 </div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <!-- Slide 2 -->
-                    <div class="swiper-slide px-2">
-                        <article class="event-card event-card--carousel">
-                            <div class="event-card-image">
-                                <img src="{{ asset('images/event-2.jpg') }}" alt="2026 HWANG IN YOUP FANMEETING">
-                            </div>
-                            <div class="event-card-content">
-                                <p class="event-card-category">Jakarta Pusat</p>
-                                <h3 class="event-card-title">2026 HWANG IN YOUP FANMEETING</h3>
-                                <p class="event-card-meta">Oleh Three Mountains Ave</p>
-                                <div class="event-card-bottom">
-                                    <div>
-                                        <small class="price-label">Mulai dari</small>
-                                        <span class="event-card-price">Rp1.900.000</span>
+                                <div class="event-card-content">
+                                    <p class="event-card-category">{{ $event->location }}</p>
+                                    <h3 class="event-card-title">{{ $event->name }}</h3>
+                                    <p class="event-card-venue">{{ $event->venue }}</p>
+                                    <div class="event-card-bottom">
+                                        <div>
+                                            <small class="price-label">Mulai dari</small>
+                                            <span class="event-card-price">
+                                                @if ($event->tickets->isNotEmpty())
+                                                    Rp{{ number_format($event->tickets->first()->price, 0, ',', '.') }}
+                                                @else
+                                                    Belum tersedia
+                                                @endif
+                                            </span>
+                                        </div>
+                                        <a class="detail-event-button inline-block" href="{{ route('events.show', $event) }}">Lihat Event</a>
                                     </div>
-                                    <button class="detail-event-button">Beli</button>
                                 </div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <!-- Tambah slide lain di sini / gunakan loop jika diperlukan -->
+                            </article>
+                        </div>
+                    @empty
+                        <div class="swiper-slide px-2">
+                            <p>Belum ada event yang tersedia.</p>
+                        </div>
+                    @endforelse
                 </div>
 
                 <!-- Navigation -->
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
 
-                <!-- Pagination -->
-                <div class="swiper-pagination"></div>
             </div>
+            <!-- Pagination stays in normal flow below the full card row. -->
+            <div class="swiper-pagination" aria-label="Navigasi event"></div>
         </div>
 
 
@@ -3280,83 +3318,6 @@ section {
 
         </div>
 
-
-        <!-- ON GOING -->
-
-        <div class="sub-event-heading">
-
-            <div>
-
-                <span class="section-label">
-                    LIVE NOW
-                </span>
-
-                <h2>
-                    Event <span>On Going</span>
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="horizontal-event-grid"
-            id="ongoingGrid"
-        >
-        </div>
-
-
-        <!-- COMING SOON -->
-
-        <div class="sub-event-heading">
-
-            <div>
-
-                <span class="section-label">
-                    DON'T MISS IT
-                </span>
-
-                <h2>
-                    Coming <span>Soon</span>
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="horizontal-event-grid"
-            id="comingGrid"
-        >
-        </div>
-
-
-        <!-- PAST -->
-
-        <div class="sub-event-heading">
-
-            <div>
-
-                <span class="section-label">
-                    ARCHIVE
-                </span>
-
-                <h2>
-                    Past <span>Event</span>
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="horizontal-event-grid"
-            id="pastGrid"
-        >
-        </div>
 
     </div>
 
@@ -3499,118 +3460,64 @@ section {
 
             </div>
 
-            <button class="view-all-button">
+            <a class="view-all-button" href="{{ route('articles.index') }}">
 
                 Lihat Semua
 
                 <i class="fa-solid fa-arrow-right"></i>
 
-            </button>
+            </a>
 
         </div>
 
 
         <div class="article-grid">
+            @forelse ($articles as $article)
+                <article class="article-card">
+                    @if ($article->image)
+                        <img
+                            src="{{ asset('storage/' . $article->image) }}"
+                            alt="{{ $article->title }}"
+                            loading="lazy"
+                        >
+                    @else
+                        <div
+                            role="img"
+                            aria-label="Tidak ada gambar untuk {{ $article->title }}"
+                            style="height: 215px; display: grid; place-items: center; background: #f0edff; color: #7257ff; font-size: 28px;"
+                        >
+                            <i class="fa-regular fa-image" aria-hidden="true"></i>
+                        </div>
+                    @endif
 
+                    <div class="article-content">
+                        <span class="article-category">TIXORA JOURNAL</span>
 
-            <article class="article-card">
+                        @if ($article->published_at)
+                            <p>
+                                <time datetime="{{ $article->published_at->toISOString() }}">
+                                    {{ $article->published_at->format('d M Y') }}
+                                </time>
+                            </p>
+                        @endif
 
-                <img
-                    src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=900&q=80"
-                    alt="Tips Konser"
-                >
+                        <h3>{{ $article->title }}</h3>
 
-                <div class="article-content">
+                        @if ($article->excerpt)
+                            <p>{{ $article->excerpt }}</p>
+                        @endif
 
-                    <span class="article-category">
-                        TIPS & TRICK
-                    </span>
-
-                    <h3>
-                        Tips Membeli Tiket
-                        Konser Online dengan Aman
-                    </h3>
-
-                    <p>
-                        Panduan membeli tiket event
-                        secara aman melalui platform digital.
-                    </p>
-
-                    <a href="#">
-                        Baca Artikel
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
+                        <a href="{{ route('articles.show', $article) }}">
+                            Baca Artikel
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </article>
+            @empty
+                <div style="grid-column: 1 / -1; padding: 32px 20px; border: 1px dashed #e9e9ee; border-radius: 17px; background: #fff; color: #86868f; text-align: center;">
+                    Belum ada artikel yang dipublikasikan.
                 </div>
-
-            </article>
-
-
-            <article class="article-card">
-
-                <img
-                    src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=900&q=80"
-                    alt="Sports Event"
-                >
-
-                <div class="article-content">
-
-                    <span class="article-category">
-                        GUIDE
-                    </span>
-
-                    <h3>
-                        Mengenal Perbedaan
-                        VIP, VVIP dan Regular
-                    </h3>
-
-                    <p>
-                        Ketahui posisi dan fasilitas
-                        dari berbagai jenis tiket event.
-                    </p>
-
-                    <a href="#">
-                        Baca Artikel
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                </div>
-
-            </article>
-
-
-            <article class="article-card">
-
-                <img
-                    src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=900&q=80"
-                    alt="QR Ticket"
-                >
-
-                <div class="article-content">
-
-                    <span class="article-category">
-                        EVENT GUIDE
-                    </span>
-
-                    <h3>
-                        Cara Masuk Venue
-                        Menggunakan QR Ticket
-                    </h3>
-
-                    <p>
-                        Panduan menggunakan tiket digital
-                        saat check-in di venue.
-                    </p>
-
-                    <a href="#">
-                        Baca Artikel
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                </div>
-
-            </article>
-
+            @endforelse
         </div>
 
     </div>
@@ -3690,21 +3597,21 @@ section {
 
                 <div class="social-icons">
 
-                    <a href="#">
+                    <span>
                         <i class="fa-brands fa-instagram"></i>
-                    </a>
+                    </span>
 
-                    <a href="#">
+                    <span>
                         <i class="fa-brands fa-tiktok"></i>
-                    </a>
+                    </span>
 
-                    <a href="#">
+                    <span>
                         <i class="fa-brands fa-facebook"></i>
-                    </a>
+                    </span>
 
-                    <a href="#">
+                    <span>
                         <i class="fa-brands fa-x-twitter"></i>
-                    </a>
+                    </span>
 
                 </div>
 
@@ -3729,9 +3636,9 @@ section {
                     Articles
                 </a>
 
-                <a href="#">
+                    <a href="{{ route('dashboard') }}">
                     My Ticket
-                </a>
+                    </a>
 
             </div>
 
@@ -3742,21 +3649,21 @@ section {
                     Support
                 </h4>
 
-                <a href="#">
+                <span>
                     Help Center
-                </a>
+                </span>
 
-                <a href="#">
+                <span>
                     Contact Us
-                </a>
+                </span>
 
-                <a href="#">
+                <span>
                     Terms & Conditions
-                </a>
+                </span>
 
-                <a href="#">
+                <span>
                     Privacy Policy
-                </a>
+                </span>
 
             </div>
 
@@ -3851,10 +3758,8 @@ section {
         </div>
 
 
-        <form
-            class="auth-form"
-            onsubmit="loginUser(event)"
-        >
+        <form class="auth-form" method="POST" action="{{ route('login') }}">
+            @csrf
 
             <label>
                 Email
@@ -3867,6 +3772,7 @@ section {
                 <input
                     type="email"
                     id="loginEmail"
+                    name="email"
                     placeholder="Masukkan email"
                     required
                 >
@@ -3885,6 +3791,7 @@ section {
                 <input
                     type="password"
                     id="loginPassword"
+                    name="password"
                     placeholder="Masukkan password"
                     required
                 >
@@ -3896,13 +3803,13 @@ section {
 
                 <label>
 
-                    <input type="checkbox">
+                    <input type="checkbox" name="remember" value="1">
 
                     Remember me
 
                 </label>
 
-                <a href="#">
+                <a href="{{ route('password.request') }}">
                     Forgot Password?
                 </a>
 
@@ -3923,9 +3830,9 @@ section {
 
             Belum punya akun?
 
-            <button id="Register">
+            <a id="Register" href="{{ route('register') }}">
                 Register
-            </button>
+            </a>
 
         </div>
 
@@ -3976,10 +3883,8 @@ section {
         </div>
 
 
-        <form
-            class="auth-form"
-            onsubmit="registerUser(event)"
-        >
+        <form class="auth-form" method="POST" action="{{ route('register') }}">
+            @csrf
 
             <label>
                 Nama Lengkap
@@ -3992,6 +3897,7 @@ section {
                 <input
                     type="text"
                     id="registerName"
+                    name="name"
                     placeholder="Nama lengkap"
                     required
                 >
@@ -4010,6 +3916,7 @@ section {
                 <input
                     type="email"
                     id="registerEmail"
+                    name="email"
                     placeholder="Email"
                     required
                 >
@@ -4028,6 +3935,7 @@ section {
                 <input
                     type="password"
                     id="registerPassword"
+                    name="password"
                     placeholder="Password"
                     required
                 >
@@ -4046,6 +3954,7 @@ section {
                 <input
                     type="password"
                     id="registerConfirmPassword"
+                    name="password_confirmation"
                     placeholder="Ulangi password"
                     required
                 >
@@ -4067,9 +3976,9 @@ section {
 
             Sudah punya akun?
 
-            <button onclick="switchToLogin()">
+            <a href="{{ route('login') }}">
                 Login
-            </button>
+            </a>
 
         </div>
 
@@ -5145,7 +5054,7 @@ section {
         <div class="profile-menu-list">
 
 
-            <button onclick="showToast('Fitur edit profile akan dihubungkan ke database.')">
+            <a href="{{ route('profile.edit') }}">
 
                 <span>
                     <i class="fa-regular fa-user"></i>
@@ -5154,10 +5063,10 @@ section {
 
                 <i class="fa-solid fa-chevron-right"></i>
 
-            </button>
+            </a>
 
 
-            <button onclick="openOrdersModal()">
+            <a href="{{ route('dashboard') }}">
 
                 <span>
                     <i class="fa-solid fa-receipt"></i>
@@ -5166,10 +5075,10 @@ section {
 
                 <i class="fa-solid fa-chevron-right"></i>
 
-            </button>
+            </a>
 
 
-            <button onclick="openTicketsModal()">
+            <a href="{{ route('dashboard') }}">
 
                 <span>
                     <i class="fa-solid fa-ticket"></i>
@@ -5178,19 +5087,8 @@ section {
 
                 <i class="fa-solid fa-chevron-right"></i>
 
-            </button>
+            </a>
 
-
-            <button onclick="showToast('Favorite akan tersimpan di database pada tahap backend.')">
-
-                <span>
-                    <i class="fa-regular fa-heart"></i>
-                    Favorite Event
-                </span>
-
-                <i class="fa-solid fa-chevron-right"></i>
-
-            </button>
 
         </div>
 
@@ -5361,21 +5259,34 @@ section {
 <!-- 2. BARU DITAMBAHKAN:lokal script proyek -->
 <script src="script.js"></script>
 
-<script>
-// inline handlers (awalnya di dalam tag src) — baru ditambahkan
-document.getElementById("loginButton").addEventListener("click", () => {
-    window.location.href = "dashboard.html";
-});
-
-document.getElementById("registerButton").addEventListener("click", () => {
-    window.location.href = "profile.html";
-});
-</script>
-
 <!-- baru ditambahkan: Swiper JS (CDN) + inisialisasi carousel rekomendasi -->
 <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const account = document.getElementById('profileWrapper');
+    const trigger = document.getElementById('profileButton');
+    const dropdown = document.getElementById('profileDropdown');
+
+    if (account && trigger && dropdown) {
+        const setAccountOpen = (open) => {
+            dropdown.classList.toggle('active', open);
+            trigger.setAttribute('aria-expanded', String(open));
+        };
+
+        trigger.addEventListener('click', () => {
+            setAccountOpen(!dropdown.classList.contains('active'));
+        });
+        document.addEventListener('click', (event) => {
+            if (!account.contains(event.target)) setAccountOpen(false);
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                setAccountOpen(false);
+                trigger.focus();
+            }
+        });
+    }
+
     // Inisialisasi Swiper untuk .event-carousel
     new Swiper('.event-carousel', {
         slidesPerView: 1.05,
@@ -5386,13 +5297,13 @@ document.addEventListener('DOMContentLoaded', function () {
             prevEl: '.swiper-button-prev',
         },
         pagination: {
-            el: '.swiper-pagination',
+            el: '.event-carousel-wrapper > .swiper-pagination',
             clickable: true,
         },
         breakpoints: {
             640: { slidesPerView: 2.05, spaceBetween: 12 },
             1024: { slidesPerView: 3.05, spaceBetween: 16 },
-            1280: { slidesPerView: 4.05, spaceBetween: 18 }
+            1280: { slidesPerView: 4, spaceBetween: 18 }
         }
     });
 });
