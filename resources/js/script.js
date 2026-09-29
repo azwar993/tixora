@@ -4125,8 +4125,6 @@ function switchToLogin() {
     closeModal(
         "registerModal"
     );
-
-
     openLoginModal();
 }
 

@@ -858,6 +858,80 @@ section {
     font-size: 16px;
 }
 
+/* =========================================================
+   Coming Soon Calendar styles
+   (ditambahkan 2026-09-22 agar inline style juga menerapkan aturan)
+   ========================================================= */
+.coming-calendar-wrapper {
+    margin-top: 22px;
+}
+.coming-calendar {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 22px;
+    background: linear-gradient(180deg, #0f1720 0%, #10202a 100%);
+    padding: 20px;
+    border-radius: 12px;
+    color: #e6eef3;
+}
+.calendar-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.calendar-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+.calendar-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.filter-pill {
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    color: #bfe7ff;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+.calendar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 6px;
+}
+.calendar-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.02);
+}
+.calendar-date {
+    width: 72px;
+    text-align: center;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    padding: 8px 6px;
+}
+.cd-day { display:block; font-size:11px; color:#9ad0ff; }
+.cd-number { display:block; font-size:20px; color:#dff5ff; }
+.cd-week { display:block; font-size:11px; color:#98c7ff; }
+.calendar-info h4 { margin:0; font-size:15px; color:#e7f7ff; }
+.calendar-info small { color:#a9c3cf; font-size:12px; }
+.calendar-time { margin-left:auto; text-align:right; }
+.calendar-time strong { display:block; font-size:20px; color:#bfe7ff; }
+.calendar-time small { color:#9fbcc7; font-size:12px; }
+
+@media (max-width: 1050px) {
+    .coming-calendar { grid-template-columns: 1fr; }
+}
+
 
 /* =========================================================
    10. EMPTY STATE
@@ -2616,32 +2690,15 @@ section {
         </a>
 
         <!-- NAVIGATION -->
-        <nav class="nav-menu">
-
-            <a href="#home" class="nav-link active">
-                Home
-            </a>
-
-            <a href="#events" class="nav-link">
-                Events
-            </a>
-
-            <a href="#categories" class="nav-link">
-                Categories
-            </a>
-
-            <a href="#articles" class="nav-link">
-                Articles
-            </a>
-
+        <nav class="nav-menu" aria-label="Main navigation">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#events" class="nav-link">Event</a>
+            <a href="#categories" class="nav-link">Kategori</a>
+            <a href="#articles" class="nav-link">Artikel</a>
         </nav>
 
-
-        <!-- NAV ACTIONS -->
         <div class="nav-actions">
-
-            <!-- LOCATION -->
-            <button
+             <button
                 class="location-button"
                 onclick="openLocationModal()"
             >
@@ -2652,29 +2709,23 @@ section {
                 <i class="fa-solid fa-chevron-down arrow-small"></i>
             </button>
 
-
-            <!-- LOGIN -->
-<a
-    href="{{ route('login') }}"
-    class="login-button"
-    id="loginButton"
->
-    Login
+            <!-- LOGIN BUTTON -->
+            <a
+                href="{{ route('login')}}"
+                class="login-button"
+                id="loginButton"  
+            >
+                Login
 </a>
 
-<!-- REGISTER -->
-<a
-    href="{{ route('register') }}"
-    class="register-button"
-    id="registerButton"
->
-    Register
-</a>
-
-            <!-- <a href="admin.html" class="admin-login-link">
-                Admin
-            </a> -->
-
+            <!-- REGISTER BUTTON -->
+            <a
+                href="{{ route('register') }}"
+                class="register-button"
+                id="registerButton"
+            >
+                Register
+            </a>
 
             <!-- USER PROFILE -->
             <div
@@ -2686,6 +2737,7 @@ section {
                 <button
                     class="profile-button"
                     onclick="toggleProfileMenu()"
+                    type="button"
                 >
 
                     <div class="profile-avatar">
@@ -2728,7 +2780,7 @@ section {
                     <div class="dropdown-divider"></div>
 
 
-                    <button onclick="openProfileModal()">
+                    <button type="button" onclick="openProfileModal()">
 
                         <i class="fa-regular fa-user"></i>
 
@@ -2737,7 +2789,7 @@ section {
                     </button>
 
 
-                    <button onclick="openOrdersModal()">
+                    <button type="button" onclick="openOrdersModal()">
 
                         <i class="fa-solid fa-receipt"></i>
 
@@ -2746,7 +2798,7 @@ section {
                     </button>
 
 
-                    <button onclick="openTicketsModal()">
+                    <button type="button" onclick="openTicketsModal()">
 
                         <i class="fa-solid fa-ticket"></i>
 
@@ -2755,7 +2807,7 @@ section {
                     </button>
 
 
-                    <button onclick="showToast('Menu Favorites akan tersedia setelah database aktif.')">
+                    <button type="button" onclick="showToast('Menu Favorites akan tersedia setelah database aktif.')">
 
                         <i class="fa-regular fa-heart"></i>
 
@@ -2770,6 +2822,7 @@ section {
                     <button
                         class="logout-menu"
                         onclick="logoutUser()"
+                        type="button"
                     >
 
                         <i class="fa-solid fa-right-from-bracket"></i>
@@ -2787,10 +2840,10 @@ section {
             <button
                 class="mobile-menu-button"
                 onclick="toggleMobileMenu()"
+                type="button"
             >
                 <i class="fa-solid fa-bars"></i>
             </button>
-
         </div>
 
     </div>
@@ -3196,15 +3249,15 @@ section {
 
         <!-- EVENTS -->
 
-        <!-- BARU DITAMBAHKAN: carousel rekomendasi event -->
+        
         <div class="event-carousel-wrapper">
             <div class="swiper event-carousel">
                 <div class="swiper-wrapper">
-                    <!-- Slide 1 -->
+                    <!-- 2026-09-21: ditambahkan slide contoh 1 START -->
                     <div class="swiper-slide px-2">
                         <article class="event-card event-card--carousel">
                             <div class="event-card-image">
-                                <img src="{{ asset('images/event-1.jpg') }}" alt="Njonja Ati Soetji">
+                                <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80" alt="Njonja Ati Soetji">
                             </div>
                             <div class="event-card-content">
                                 <p class="event-card-category">Jakarta Selatan</p>
@@ -3220,12 +3273,13 @@ section {
                             </div>
                         </article>
                     </div>
+                    <!-- 2026-09-21: ditambahkan slide contoh 1 END -->
 
-                    <!-- Slide 2 -->
+                    <!-- 2026-09-21: ditambahkan slide contoh 2 START -->
                     <div class="swiper-slide px-2">
                         <article class="event-card event-card--carousel">
                             <div class="event-card-image">
-                                <img src="{{ asset('images/event-2.jpg') }}" alt="2026 HWANG IN YOUP FANMEETING">
+                                <img src="https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=1200&q=80" alt="2026 HWANG IN YOUP FANMEETING">
                             </div>
                             <div class="event-card-content">
                                 <p class="event-card-category">Jakarta Pusat</p>
@@ -3241,16 +3295,81 @@ section {
                             </div>
                         </article>
                     </div>
+                    <!-- 2026-09-21: ditambahkan slide contoh 2 END -->
 
-                    <!-- Tambah slide lain di sini / gunakan loop jika diperlukan -->
+                    <!-- 2026-09-21: ditambahkan slide contoh 3 START -->
+                    <div class="swiper-slide px-2">
+                        <article class="event-card event-card--carousel">
+                            <div class="event-card-image">
+                                <img src="https://images.unsplash.com/photo-1515165562835-c3a9d0d6b0e6?auto=format&fit=crop&w=1200&q=80" alt="Big Concert">
+                            </div>
+                            <div class="event-card-content">
+                                <p class="event-card-category">Jakarta Utara</p>
+                                <h3 class="event-card-title">BIG CONCERT 2026</h3>
+                                <p class="event-card-meta">Oleh PK Entertainment</p>
+                                <div class="event-card-bottom">
+                                    <div>
+                                        <small class="price-label">Mulai dari</small>
+                                        <span class="event-card-price">Rp1.550.000</span>
+                                    </div>
+                                    <button class="detail-event-button">Beli</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- 2026-09-21: ditambahkan slide contoh 3 END -->
+
+                    <!-- 2026-09-21: ditambahkan slide contoh 4 START -->
+                    <div class="swiper-slide px-2">
+                        <article class="event-card event-card--carousel">
+                            <div class="event-card-image">
+                                <img src="https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=1200&q=80" alt="Festival">
+                            </div>
+                            <div class="event-card-content">
+                                <p class="event-card-category">Jakarta Pusat</p>
+                                <h3 class="event-card-title">Pestapora 2026</h3>
+                                <p class="event-card-meta">Oleh Boss Creator</p>
+                                <div class="event-card-bottom">
+                                    <div>
+                                        <small class="price-label">Mulai dari</small>
+                                        <span class="event-card-price">Rp175.000</span>
+                                    </div>
+                                    <button class="detail-event-button">Beli</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- 2026-09-21: ditambahkan slide contoh 4 END -->
+
+                    <!-- 2026-09-21: ditambahkan slide contoh 5 START -->
+                    <div class="swiper-slide px-2">
+                        <article class="event-card event-card--carousel">
+                            <div class="event-card-image">
+                                <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80" alt="DWP">
+                            </div>
+                            <div class="event-card-content">
+                                <p class="event-card-category">Jakarta Pusat</p>
+                                <h3 class="event-card-title">DWP 2026</h3>
+                                <p class="event-card-meta">Oleh Ismaya Live</p>
+                                <div class="event-card-bottom">
+                                    <div>
+                                        <small class="price-label">Mulai dari</small>
+                                        <span class="event-card-price">Rp850.000</span>
+                                    </div>
+                                    <button class="detail-event-button">Beli</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- 2026-09-21: ditambahkan slide contoh 5 END -->
+
                 </div>
 
                 <!-- Navigation -->
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
 
-                <!-- Pagination -->
-                <div class="swiper-pagination"></div>
+                <!-- Pagination removed per request -->
             </div>
         </div>
 
@@ -3300,10 +3419,80 @@ section {
         </div>
 
 
-        <div
-            class="horizontal-event-grid"
-            id="ongoingGrid"
-        >
+        <div class="event-carousel-wrapper">
+            <div class="swiper ongoing-carousel">
+                <div class="swiper-wrapper">
+                    <!-- 2026-09-22: ongoing slide 1 START -->
+                    <div class="swiper-slide px-2">
+                        <article class="event-card">
+                            <div class="event-card-image">
+                                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1400&q=80" alt="Jakarta Illustration & Creative Arts Fair">
+                            </div>
+                            <div class="event-card-content">
+                                <p class="event-card-category">Jakarta Barat</p>
+                                <h3 class="event-card-title">Jakarta Illustration & Creative Arts Fair (JICAF) 2026</h3>
+                                <p class="event-card-meta">Oleh Agora Lifestyle</p>
+                                <div class="event-card-bottom">
+                                    <div>
+                                        <small class="price-label">Mulai dari</small>
+                                        <span class="event-card-price">Rp175.000</span>
+                                    </div>
+                                    <button class="detail-event-button">Beli</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- 2026-09-22: ongoing slide 1 END -->
+
+                    <!-- 2026-09-22: ongoing slide 2 START -->
+                    <div class="swiper-slide px-2">
+                        <article class="event-card">
+                            <div class="event-card-image">
+                                <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80" alt="Home Sweet Loan The Musical">
+                            </div>
+                            <div class="event-card-content">
+                                <p class="event-card-category">Jakarta Pusat</p>
+                                <h3 class="event-card-title">Home Sweet Loan The Musical</h3>
+                                <p class="event-card-meta">Oleh Visinema</p>
+                                <div class="event-card-bottom">
+                                    <div>
+                                        <small class="price-label">Mulai dari</small>
+                                        <span class="event-card-price">Rp195.000</span>
+                                    </div>
+                                    <button class="detail-event-button">Beli</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- 2026-09-22: ongoing slide 2 END -->
+
+                    <!-- 2026-09-22: ongoing slide 3 START -->
+                    <div class="swiper-slide px-2">
+                        <article class="event-card">
+                            <div class="event-card-image">
+                                <img src="https://images.unsplash.com/photo-1508973370-3a9b4f8d1d6b?auto=format&fit=crop&w=1400&q=80" alt="PGR 2026">
+                            </div>
+                            <div class="event-card-content">
+                                <p class="event-card-category">Kemayoran</p>
+                                <h3 class="event-card-title">PGR 2026</h3>
+                                <p class="event-card-meta">Oleh PGR Organizer</p>
+                                <div class="event-card-bottom">
+                                    <div>
+                                        <small class="price-label">Mulai dari</small>
+                                        <span class="event-card-price">Rp120.000</span>
+                                    </div>
+                                    <button class="detail-event-button">Beli</button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- 2026-09-22: ongoing slide 3 END -->
+                </div>
+
+                <!-- Navigation -->
+                <div class="swiper-button-prev ongoing-button-prev"></div>
+                <div class="swiper-button-next ongoing-button-next"></div>
+            </div>
         </div>
 
 
@@ -3326,10 +3515,74 @@ section {
         </div>
 
 
-        <div
-            class="horizontal-event-grid"
-            id="comingGrid"
-        >
+        <div class="coming-calendar-wrapper">
+            <!-- 2026-09-22: coming soon calendar START -->
+            <div class="coming-calendar">
+                <div class="calendar-left">
+                    <div class="calendar-poster">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80" alt="Gigs this week">
+                    </div>
+                </div>
+                <div class="calendar-right">
+                    <h3 class="calendar-title">Live Sounds Calendar</h3>
+                    <div class="calendar-filters">
+                        <button class="filter-pill">Populer</button>
+                        <button class="filter-pill">Minggu Ini</button>
+                        <button class="filter-pill">Bulan Ini</button>
+                    </div>
+
+                    <div class="calendar-list">
+                        <div class="calendar-item">
+                            <div class="calendar-date">
+                                <span class="cd-day">OCT</span>
+                                <strong class="cd-number">12</strong>
+                                <small class="cd-week">SEL</small>
+                            </div>
+                            <div class="calendar-info">
+                                <h4>The Smiths Tribute Jakarta 2026</h4>
+                                <small>12 Sep - 4 Okt 2026 • Agora Mall (Agora Ballroom), Jakarta Pusat</small>
+                            </div>
+                            <div class="calendar-time">
+                                <strong>14:32:01</strong>
+                                <small>Ticket War! Auto-Remind</small>
+                            </div>
+                        </div>
+
+                        <div class="calendar-item">
+                            <div class="calendar-date">
+                                <span class="cd-day">OCT</span>
+                                <strong class="cd-number">15</strong>
+                                <small class="cd-week">KAM</small>
+                            </div>
+                            <div class="calendar-info">
+                                <h4>Dewa 19 - Anniversary Concert</h4>
+                                <small>12 Sep - 1 Okt 2026 • Agora Mall (Ballroom, L2 Floor), Jakarta Pusat</small>
+                            </div>
+                            <div class="calendar-time">
+                                <strong>03:15:44</strong>
+                                <small>Ticket War! Auto-Remind</small>
+                            </div>
+                        </div>
+
+                        <div class="calendar-item">
+                            <div class="calendar-date">
+                                <span class="cd-day">OCT</span>
+                                <strong class="cd-number">20</strong>
+                                <small class="cd-week">SEL</small>
+                            </div>
+                            <div class="calendar-info">
+                                <h4>TULUS - Intimate Gig Jakarta</h4>
+                                <small>24-25 Sep 2026 • Dome Of Jacob Nahuway, GBI Mawar Saron</small>
+                            </div>
+                            <div class="calendar-time">
+                                <strong>07:23:19</strong>
+                                <small>Ticket Sales Not Yet Open</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 2026-09-22: coming soon calendar END -->
         </div>
 
 
@@ -4064,9 +4317,7 @@ section {
 
 
         <div class="auth-switch">
-
             Sudah punya akun?
-
             <button onclick="switchToLogin()">
                 Login
             </button>
@@ -5363,7 +5614,7 @@ section {
 
 <script>
 // inline handlers (awalnya di dalam tag src) — baru ditambahkan
-document.getElementById("loginButton").addEventListener("click", () => {
+document.getElementById("fButton").addEventListener("click", () => {
     window.location.href = "dashboard.html";
 });
 
@@ -5374,25 +5625,39 @@ document.getElementById("registerButton").addEventListener("click", () => {
 
 <!-- baru ditambahkan: Swiper JS (CDN) + inisialisasi carousel rekomendasi -->
 <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
+<!-- <script src="./js/scipt.js"></script> -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     // Inisialisasi Swiper untuk .event-carousel
     new Swiper('.event-carousel', {
         slidesPerView: 1.05,
         spaceBetween: 12,
-        loop: false,
+        loop: true, // 2026-09-21: ubah ke loop agar bisa slide terus menerus (baru ditambahkan)
+        centeredSlides: false,
+        keyboard: { enabled: true, onlyInViewport: true }, // 2026-09-21: tambahkan navigasi keyboard
+        autoplay: { delay: 4000, disableOnInteraction: false }, // 2026-09-21: autoplay ditambahkan
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
         },
         breakpoints: {
             640: { slidesPerView: 2.05, spaceBetween: 12 },
             1024: { slidesPerView: 3.05, spaceBetween: 16 },
             1280: { slidesPerView: 4.05, spaceBetween: 18 }
+        }
+    });
+    // Inisialisasi Swiper untuk .ongoing-carousel (3 per row pada desktop)
+    new Swiper('.ongoing-carousel', {
+        slidesPerView: 1.05,
+        spaceBetween: 12,
+        loop: true,
+        navigation: {
+            nextEl: '.ongoing-button-next',
+            prevEl: '.ongoing-button-prev',
+        },
+        breakpoints: {
+            640: { slidesPerView: 2, spaceBetween: 12 },
+            1024: { slidesPerView: 3, spaceBetween: 18 }
         }
     });
 });
