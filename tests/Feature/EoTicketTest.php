@@ -72,6 +72,72 @@ class EoTicketTest extends TestCase
         ]);
     }
 
+    public function test_eo_can_create_arbitrary_ticket_names_per_event_without_a_predefined_list(): void
+    {
+        $owner = $this->user('eo');
+        $eventA = $this->event($owner, ['name' => 'Event A']);
+        $eventB = $this->event($owner, ['name' => 'Event B']);
+        $ticketNameA = 'VIP East - Balcony';
+        $ticketNameB = 'Student Access / Early Entry';
+
+        $this->actingAs($owner)
+            ->get(route('eo.events.tickets.create', $eventA))
+            ->assertOk()
+            ->assertSee('name="name" type="text"', false)
+            ->assertDontSee('<select', false);
+
+        $this->actingAs($owner)
+            ->post(route('eo.events.tickets.store', $eventA), $this->ticketData([
+                'name' => $ticketNameA,
+            ]))
+            ->assertRedirect(route('eo.events.tickets.index', $eventA));
+
+        $this->post(route('eo.events.tickets.store', $eventB), $this->ticketData([
+            'name' => $ticketNameB,
+        ]))->assertRedirect(route('eo.events.tickets.index', $eventB));
+
+        $this->assertDatabaseHas('tickets', [
+            'event_id' => $eventA->id,
+            'name' => $ticketNameA,
+        ]);
+        $this->assertDatabaseHas('tickets', [
+            'event_id' => $eventB->id,
+            'name' => $ticketNameB,
+        ]);
+        $this->assertSame([$ticketNameA], $eventA->tickets()->pluck('name')->all());
+        $this->assertSame([$ticketNameB], $eventB->tickets()->pluck('name')->all());
+    }
+
+    public function test_general_admission_public_detail_shows_only_its_real_ticket_types_without_seats(): void
+    {
+        $owner = $this->user('eo');
+        $eventA = $this->event($owner, ['name' => 'Public Event A']);
+        $eventB = $this->event($owner, ['name' => 'Public Event B']);
+
+        $this->actingAs($owner)
+            ->post(route('eo.events.tickets.store', $eventA), $this->ticketData([
+                'name' => 'Balcony East',
+            ]))
+            ->assertRedirect(route('eo.events.tickets.index', $eventA));
+        $this->post(route('eo.events.tickets.store', $eventB), $this->ticketData([
+            'name' => 'Student Floor',
+        ]))->assertRedirect(route('eo.events.tickets.index', $eventB));
+
+        $eventA->update(['workflow_status' => 'submitted', 'approval_status' => 'approved']);
+        $eventB->update(['workflow_status' => 'submitted', 'approval_status' => 'approved']);
+
+        $this->get(route('events.show', $eventA))
+            ->assertOk()
+            ->assertSee('Balcony East')
+            ->assertSee('data-ticket-remaining="100"', false)
+            ->assertDontSee('Student Floor')
+            ->assertDontSee('id="seatGrid"', false);
+
+        $this->assertSame('general_admission', $eventA->seating_type);
+        $this->assertDatabaseCount('event_sections', 0);
+        $this->assertDatabaseCount('seats', 0);
+    }
+
     public function test_ticket_creation_ignores_spoofed_event_sold_and_reserved_fields(): void
     {
         $owner = $this->user('eo');
@@ -101,7 +167,15 @@ class EoTicketTest extends TestCase
         $ticketB = $this->ticket($eventB);
 
         $this->actingAs($owner)
+            ->post(route('eo.events.tickets.store', $eventB), $this->ticketData())
+            ->assertNotFound();
+
+        $this->actingAs($owner)
             ->get(route('eo.events.tickets.edit', [$eventA, $ticketB]))
+            ->assertNotFound();
+
+        $this->actingAs($owner)
+            ->put(route('eo.events.tickets.update', [$eventA, $ticketB]), $this->ticketData())
             ->assertNotFound();
 
         $this->actingAs($owner)

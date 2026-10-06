@@ -6,8 +6,13 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CreatorActivationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EoDashboardController;
+use App\Http\Controllers\EoActivityController;
 use App\Http\Controllers\EoEventController;
+use App\Http\Controllers\EoHelpController;
+use App\Http\Controllers\EoParticipantsController;
 use App\Http\Controllers\EoSeatingController;
+use App\Http\Controllers\EoSalesController;
+use App\Http\Controllers\EoSettingsController;
 use App\Http\Controllers\EoTicketController;
 use App\Http\Controllers\MidtransWebhookController;
 use App\Http\Controllers\OrderController;
@@ -87,6 +92,31 @@ Route::get('/admin/dashboard', [EventController::class, 'index'])
 Route::get('/eo/dashboard', [EoDashboardController::class, 'index'])
     ->middleware(['auth', 'eo'])
     ->name('eo.dashboard');
+
+Route::get('/eo/sales', [EoSalesController::class, 'index'])
+    ->middleware(['auth', 'eo'])
+    ->name('eo.sales.index');
+
+Route::get('/eo/participants', [EoParticipantsController::class, 'index'])
+    ->middleware(['auth', 'eo'])
+    ->name('eo.participants.index');
+
+Route::get('/eo/activity', [EoActivityController::class, 'index'])
+    ->middleware(['auth', 'eo'])
+    ->name('eo.activity.index');
+
+Route::middleware(['auth', 'eo'])
+    ->prefix('eo/settings')
+    ->name('eo.settings.')
+    ->controller(EoSettingsController::class)
+    ->group(function () {
+        Route::get('/', 'edit')->name('edit');
+        Route::patch('/', 'update')->name('update');
+    });
+
+Route::get('/eo/help', [EoHelpController::class, 'index'])
+    ->middleware(['auth', 'eo'])
+    ->name('eo.help.index');
 
 Route::middleware(['auth', 'eo'])
     ->prefix('eo/events')

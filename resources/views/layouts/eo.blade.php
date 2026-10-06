@@ -41,13 +41,23 @@
                 <a class="eo-menu-item {{ request()->routeIs('eo.events.*') ? 'active' : '' }}" href="{{ route('eo.events.index') }}" @if(request()->routeIs('eo.events.*')) aria-current="page" @endif>
                     <i class="fa-solid fa-calendar-days"></i><span>Event Saya</span>
                 </a>
+                <a class="eo-menu-item {{ request()->routeIs('eo.sales.*') ? 'active' : '' }}" href="{{ route('eo.sales.index') }}" @if(request()->routeIs('eo.sales.*')) aria-current="page" @endif>
+                    <i class="fa-solid fa-chart-line"></i><span>Penjualan</span>
+                </a>
+                <a class="eo-menu-item {{ request()->routeIs('eo.participants.*') ? 'active' : '' }}" href="{{ route('eo.participants.index') }}" @if(request()->routeIs('eo.participants.*')) aria-current="page" @endif>
+                    <i class="fa-solid fa-users"></i><span>Peserta</span>
+                </a>
 
-                <span class="eo-menu-label eo-menu-label-spaced">COMING SOON</span>
-                <span class="eo-menu-item is-disabled" aria-disabled="true"><i class="fa-solid fa-bolt"></i><span>Aktivitas</span></span>
-                <span class="eo-menu-item is-disabled" aria-disabled="true"><i class="fa-solid fa-chart-line"></i><span>Penjualan</span></span>
-                <span class="eo-menu-item is-disabled" aria-disabled="true"><i class="fa-solid fa-users"></i><span>Peserta</span></span>
-                <span class="eo-menu-item is-disabled" aria-disabled="true"><i class="fa-solid fa-gear"></i><span>Pengaturan</span></span>
-                <span class="eo-menu-item is-disabled" aria-disabled="true"><i class="fa-regular fa-circle-question"></i><span>Bantuan</span></span>
+                <span class="eo-menu-label eo-menu-label-spaced">AKUN & AKTIVITAS</span>
+                <a class="eo-menu-item {{ request()->routeIs('eo.activity.*') ? 'active' : '' }}" href="{{ route('eo.activity.index') }}" @if(request()->routeIs('eo.activity.*')) aria-current="page" @endif>
+                    <i class="fa-solid fa-bolt"></i><span>Aktivitas</span>
+                </a>
+                <a class="eo-menu-item {{ request()->routeIs('eo.settings.*') ? 'active' : '' }}" href="{{ route('eo.settings.edit') }}" @if(request()->routeIs('eo.settings.*')) aria-current="page" @endif>
+                    <i class="fa-solid fa-gear"></i><span>Pengaturan</span>
+                </a>
+                <a class="eo-menu-item {{ request()->routeIs('eo.help.*') ? 'active' : '' }}" href="{{ route('eo.help.index') }}" @if(request()->routeIs('eo.help.*')) aria-current="page" @endif>
+                    <i class="fa-regular fa-circle-question"></i><span>Bantuan</span>
+                </a>
             </nav>
 
             <div class="eo-sidebar-bottom">
@@ -74,7 +84,7 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
                     <div>
-                        <p class="eo-breadcrumb"><span>Creator</span><i class="fa-solid fa-chevron-right"></i> Overview</p>
+                        <p class="eo-breadcrumb"><span>Creator</span><i class="fa-solid fa-chevron-right"></i> {{ request()->routeIs('eo.sales.*') ? 'Penjualan' : (request()->routeIs('eo.participants.*') ? 'Peserta' : (request()->routeIs('eo.activity.*') ? 'Aktivitas' : (request()->routeIs('eo.settings.*') ? 'Pengaturan' : (request()->routeIs('eo.help.*') ? 'Bantuan' : (request()->routeIs('eo.events.*') ? 'Event Saya' : 'Overview'))))) }}</p>
                         <h1>{{ $title ?? 'Overview' }}</h1>
                     </div>
                 </div>
