@@ -1,100 +1,67 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+<nav class="tix-nav" aria-label="Navigasi utama">
+    <div class="tix-nav-inner">
+        <a class="tix-nav-logo" href="{{ route('home') }}" aria-label="TIXORA Home">TIX<span>ORA</span></a>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-            </div>
+        <div class="tix-nav-links">
+            <a href="{{ route('home') }}">Home</a>
+            <a href="{{ route('home') }}#events">Events</a>
+            <a href="{{ route('home') }}#categories">Categories</a>
+            <a href="{{ route('articles.index') }}">Articles</a>
+        </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+        <div class="tix-nav-actions">
+            @guest
+                <a class="tix-login-link" href="{{ route('login') }}">Login</a>
+                <a class="tix-register-link" href="{{ route('register') }}">Register</a>
+            @else
+                <details class="tix-account">
+                    <summary aria-label="Menu akun {{ auth()->user()->name }}" aria-expanded="false" aria-controls="tixAccountMenu">
+                        <span class="tix-account-avatar" aria-hidden="true"><i class="fa-solid fa-user"></i></span>
+                        <span class="tix-account-name">{{ auth()->user()->name }}</span>
+                        <i class="fa-solid fa-chevron-down tix-account-chevron" aria-hidden="true"></i>
+                    </summary>
+                    <div class="tix-account-menu" id="tixAccountMenu">
+                        <div class="tix-account-identity">
+                            <strong>{{ auth()->user()->name }}</strong>
+                            <small>{{ auth()->user()->email }}</small>
+                        </div>
 
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
+                        @if (auth()->user()->role === 'admin')
+                            <div class="tix-account-group-label">Admin</div>
+                            <a href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-gauge-high"></i> Admin Dashboard</a>
+                        @else
+                            <div class="tix-account-group-label">Pembeli</div>
+                            <a href="{{ route('dashboard') }}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                            <a href="{{ route('dashboard') }}#tickets"><i class="fa-solid fa-ticket"></i> Tiket Saya</a>
+                            <a href="{{ route('dashboard') }}#orders"><i class="fa-solid fa-receipt"></i> Pesanan Saya</a>
 
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                            @if (auth()->user()->role === 'eo')
+                                <div class="tix-account-divider"></div>
+                                <div class="tix-account-group-label">Event Creator</div>
+                                <a href="{{ route('eo.dashboard') }}"><i class="fa-solid fa-gauge-high"></i> Creator Dashboard</a>
+                                <a href="{{ route('eo.events.index') }}"><i class="fa-regular fa-calendar"></i> Event Saya</a>
+                            @endif
+                        @endif
 
-                        <!-- Authentication -->
+                        <div class="tix-account-divider"></div>
+                        <a href="{{ route('profile.edit') }}"><i class="fa-regular fa-user"></i> Profil</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
+                            <button type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
                         </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
+                    </div>
+                </details>
+            @endguest
 
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
+            <details class="tix-mobile-navigation">
+                <summary aria-label="Buka navigasi"><i class="fa-solid fa-bars"></i></summary>
+                <div>
+                    <a href="{{ route('home') }}">Home</a>
+                    <a href="{{ route('home') }}#events">Events</a>
+                    <a href="{{ route('home') }}#categories">Categories</a>
+                    <a href="{{ route('articles.index') }}">Articles</a>
+                </div>
+            </details>
         </div>
     </div>
 </nav>

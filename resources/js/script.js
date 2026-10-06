@@ -1313,14 +1313,38 @@ function renderPast() {
 ========================================================= */
 
 function renderAllEvents() {
+    filterHomepageEvents();
+}
 
-    renderRecommended();
 
-    renderOngoing();
+function filterHomepageEvents({ search = "", category = "", location = "" } = {}) {
+    const cards = document.querySelectorAll(".event-card--carousel");
+    const normalizedSearch = search.toLowerCase().trim();
+    const normalizedCategory = category.toLowerCase().trim();
+    const normalizedLocation = location.toLowerCase().trim();
+    let visibleCount = 0;
 
-    renderComing();
+    cards.forEach(card => {
+        const matches =
+            (!normalizedSearch || card.dataset.eventSearch.includes(normalizedSearch)) &&
+            (!normalizedCategory || card.dataset.eventCategory.includes(normalizedCategory)) &&
+            (!normalizedLocation || card.dataset.eventLocation.includes(normalizedLocation));
+        const slide = card.closest(".swiper-slide");
 
-    renderPast();
+        if (slide) {
+            slide.hidden = !matches;
+            slide.style.display = matches ? "" : "none";
+        }
+        if (matches) visibleCount++;
+    });
+
+    const emptyState = document.getElementById("emptyState");
+    if (emptyState) {
+        emptyState.style.display = cards.length > 0 && visibleCount === 0 ? "block" : "none";
+    }
+
+    const carousel = document.querySelector(".event-carousel");
+    if (carousel?.swiper) carousel.swiper.update();
 }
 
 
@@ -1338,131 +1362,7 @@ function searchEvents() {
     if (!input) return;
 
 
-    const keyword =
-        input.value
-            .toLowerCase()
-            .trim();
-
-
-    if (!keyword) {
-
-        renderAllEvents();
-
-        return;
-    }
-
-
-    const result =
-        events.filter(event => {
-
-            return (
-
-                event.title
-                    .toLowerCase()
-                    .includes(keyword)
-
-                ||
-
-                event.category
-                    .toLowerCase()
-                    .includes(keyword)
-
-                ||
-
-                event.subcategory
-                    .toLowerCase()
-                    .includes(keyword)
-
-                ||
-
-                event.location
-                    .toLowerCase()
-                    .includes(keyword)
-
-                ||
-
-                event.lineup
-                    .join(" ")
-                    .toLowerCase()
-                    .includes(keyword)
-
-            );
-
-        });
-
-
-    const recommended =
-        result.filter(
-            event => event.recommended
-        );
-
-    const ongoing =
-        result.filter(
-            event => event.status === "ongoing"
-        );
-
-    const coming =
-        result.filter(
-            event => event.status === "coming"
-        );
-
-    const past =
-        result.filter(
-            event => event.status === "past"
-        );
-
-
-    document.getElementById(
-        "eventGrid"
-    ).innerHTML =
-        recommended
-            .map(createEventCard)
-            .join("");
-
-
-    document.getElementById(
-        "ongoingGrid"
-    ).innerHTML =
-        ongoing
-            .map(createEventCard)
-            .join("");
-
-
-    document.getElementById(
-        "comingGrid"
-    ).innerHTML =
-        coming
-            .map(createEventCard)
-            .join("");
-
-
-    document.getElementById(
-        "pastGrid"
-    ).innerHTML =
-        past
-            .map(createEventCard)
-            .join("");
-
-
-    const emptyState =
-        document.getElementById(
-            "emptyState"
-        );
-
-
-    if (result.length === 0) {
-
-        emptyState.style.display =
-            "block";
-
-    } else {
-
-        emptyState.style.display =
-            "none";
-
-    }
-
-
+    filterHomepageEvents({ search: input.value });
     document
         .getElementById("events")
         .scrollIntoView({
@@ -1496,85 +1396,7 @@ function searchKeyword(keyword) {
 ========================================================= */
 
 function filterCategory(category) {
-
-    const normalized =
-        category.toLowerCase();
-
-
-    const result =
-        events.filter(event => {
-
-            return (
-                event.category
-                    .toLowerCase()
-                    .includes(normalized)
-
-                ||
-
-                event.subcategory
-                    .toLowerCase()
-                    .includes(normalized)
-            );
-
-        });
-
-
-    document.getElementById(
-        "eventGrid"
-    ).innerHTML =
-        result
-            .filter(
-                event =>
-                    event.recommended
-            )
-            .map(createEventCard)
-            .join("");
-
-
-    document.getElementById(
-        "ongoingGrid"
-    ).innerHTML =
-        result
-            .filter(
-                event =>
-                    event.status === "ongoing"
-            )
-            .map(createEventCard)
-            .join("");
-
-
-    document.getElementById(
-        "comingGrid"
-    ).innerHTML =
-        result
-            .filter(
-                event =>
-                    event.status === "coming"
-            )
-            .map(createEventCard)
-            .join("");
-
-
-    document.getElementById(
-        "pastGrid"
-    ).innerHTML =
-        result
-            .filter(
-                event =>
-                    event.status === "past"
-            )
-            .map(createEventCard)
-            .join("");
-
-
-    document.getElementById(
-        "emptyState"
-    ).style.display =
-        result.length === 0
-            ? "block"
-            : "none";
-
-
+    filterHomepageEvents({ category });
     document
         .getElementById("events")
         .scrollIntoView({
@@ -1597,11 +1419,6 @@ function showAllEvents() {
     if (input) {
         input.value = "";
     }
-
-
-    document.getElementById(
-        "emptyState"
-    ).style.display = "none";
 
 
     renderAllEvents();
@@ -3951,60 +3768,7 @@ function selectLocation(
 function filterLocation(
     location
 ) {
-
-    if (
-        location ===
-        "JABODETABEK"
-    ) {
-
-        renderAllEvents();
-
-        return;
-    }
-
-
-    const result =
-        events.filter(
-            event =>
-                event.location
-                    .toLowerCase()
-                    .includes(
-                        location.toLowerCase()
-                    )
-        );
-
-
-    document.getElementById(
-        "eventGrid"
-    ).innerHTML =
-        result
-            .map(createEventCard)
-            .join("");
-
-
-    document.getElementById(
-        "ongoingGrid"
-    ).innerHTML = "";
-
-
-    document.getElementById(
-        "comingGrid"
-    ).innerHTML = "";
-
-
-    document.getElementById(
-        "pastGrid"
-    ).innerHTML = "";
-
-
-    document.getElementById(
-        "emptyState"
-    ).style.display =
-        result.length === 0
-            ? "block"
-            : "none";
-
-
+    filterHomepageEvents({ location: location === "JABODETABEK" ? "" : location });
     document
         .getElementById(
             "events"

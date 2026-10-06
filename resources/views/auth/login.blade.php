@@ -284,6 +284,51 @@
             color: #c4b5fd;
         }
 
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper .field-input {
+            padding-right: 54px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 14px;
+            transform: translateY(-50%);
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            padding: 0;
+            border: 0;
+            border-radius: 10px;
+            background: transparent;
+            color: #77778a;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .toggle-password:hover {
+            background: rgba(124, 58, 237, 0.10);
+            color: #a78bfa;
+        }
+
+        .toggle-password:focus-visible {
+            outline: 2px solid rgba(124, 58, 237, 0.65);
+            outline-offset: 2px;
+        }
+
+        .password-icon {
+            width: 19px;
+            height: 19px;
+        }
+
+        .password-icon.eye-off-icon {
+            display: none;
+        }
+
         .remember {
             display: flex;
             align-items: center;
@@ -558,15 +603,38 @@
 
                     </div>
 
-                    <input
-                        id="password"
-                        class="field-input"
-                        type="password"
-                        name="password"
-                        placeholder="Masukkan password"
-                        required
-                        autocomplete="current-password"
-                    >
+                    <div class="password-wrapper">
+
+                        <input
+                            id="password"
+                            class="field-input"
+                            type="password"
+                            name="password"
+                            placeholder="Masukkan password"
+                            required
+                            autocomplete="current-password"
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            onclick="togglePassword('password', this)"
+                            aria-label="Lihat password"
+                            aria-pressed="false"
+                        >
+                            <svg class="password-icon eye-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="12" cy="12" r="2.8" stroke="currentColor" stroke-width="1.8"/>
+                            </svg>
+
+                            <svg class="password-icon eye-off-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M3 3l18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                <path d="M10.6 6.2A10.8 10.8 0 0 1 12 6c6 0 9.5 6 9.5 6a17 17 0 0 1-3 3.9M6.2 6.8C3.8 8.2 2.5 12 2.5 12s3.5 6 9.5 6a9.7 9.7 0 0 0 2.6-.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.9 9.9a2.8 2.8 0 0 0 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+
+                    </div>
 
                     @error('password')
                         <div class="mt-2 text-xs text-red-400">
@@ -625,6 +693,31 @@
     </section>
 
 </div>
+
+
+<script>
+    function togglePassword(inputId, button) {
+        const input = document.getElementById(inputId);
+        const eyeIcon = button.querySelector('.eye-icon');
+        const eyeOffIcon = button.querySelector('.eye-off-icon');
+
+        if (!input) return;
+
+        const isHidden = input.type === 'password';
+
+        input.type = isHidden ? 'text' : 'password';
+        button.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
+        button.setAttribute(
+            'aria-label',
+            isHidden ? 'Sembunyikan password' : 'Lihat password'
+        );
+
+        if (eyeIcon && eyeOffIcon) {
+            eyeIcon.style.display = isHidden ? 'none' : 'block';
+            eyeOffIcon.style.display = isHidden ? 'block' : 'none';
+        }
+    }
+</script>
 
 </body>
 </html>
